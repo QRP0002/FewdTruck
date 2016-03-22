@@ -1,6 +1,9 @@
 package com.pommerening.quinn.foodtruck.fragment;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -16,12 +19,21 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.pommerening.quinn.foodtruck.database.Employee;
 import com.pommerening.quinn.foodtruck.fragment.dialogs.ForgotIdDialog;
 import com.pommerening.quinn.foodtruck.fragment.dialogs.NewRegisterDialog;
 import com.pommerening.quinn.foodtruck.pojo.EmployeeLoad;
-import com.pommerening.quinn.foodtruck.pojo.LoginServices;
+import com.pommerening.quinn.foodtruck.pojo.JSONParser;
 import com.pommerening.quinn.foodtruck.R;
 import com.pommerening.quinn.foodtruck.pojo.TimeOfDay;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginHomeFragment extends Fragment implements MiniMapFragment.OnMapReadyListner {
 
@@ -35,7 +47,13 @@ public class LoginHomeFragment extends Fragment implements MiniMapFragment.OnMap
     private SupportMapFragment mMapFragment;
     private GoogleMap mMap;
     private final String TAG = "LoginHomeFragment";
+    private ProgressDialog pDialog;
 
+    JSONParser jp = new JSONParser();
+    private static final String URL = "http://192.168.1.72:80/webservice/login.php";
+    //private static final String URL_EMP = "http://192.168.1.72:80/webservice/emplogin.php";
+    private static final String TAG_SUCCESS = "success";
+    private static final String TAG_MESSAGE = "message";
 
     public static LoginHomeFragment newInstance() {
         LoginHomeFragment f = new LoginHomeFragment();
@@ -58,50 +76,16 @@ public class LoginHomeFragment extends Fragment implements MiniMapFragment.OnMap
                 .commit();
         onMapReady();
 
-        int holder = 1;
-        if(holder == 1) {
-            EmployeeLoad el = new EmployeeLoad(getActivity());
-            el.loadEmployee();
-            holder++;
-        }
+        mUsername = (EditText) view.findViewById(R.id.login_name_id);
+        mPassword = (EditText) view.findViewById(R.id.login_password_id);
 
         mLoginButton = (Button) view.findViewById(R.id.login_fragment_login_button);
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                LoginServices ls = new LoginServices(getActivity(), getActivity());
-                mUsername = (EditText) view.findViewById(R.id.login_name_id);
-                mPassword = (EditText) view.findViewById(R.id.login_password_id);
+                String username = mUsername.getText().toString();
+                String password = mPassword.getText().toString();
 
-                try {
-                    final String username = mUsername.getText().toString();
-                    final String password = mPassword.getText().toString();
-                    final String employee = ls.isEmployee(username);
-
-                    if (employee.equals("yes") && ls.employeeVerification(username, password)) {
-                        Fragment display = new EmployeeHomeFragment();
-                        getFragmentManager().beginTransaction()
-                                .addToBackStack("fragment")
-                                .replace(R.id.fragmentContainer, display)
-                                .commit();
-                    } else if (employee.equals("no") && ls.customerVerification(username,
-                            password)) {
-                        Fragment display = CustomerHomeFragment.newInstance(username);
-                        getFragmentManager().beginTransaction()
-                                .addToBackStack("fragment")
-                                .replace(R.id.fragmentContainer, display)
-                                .commit();
-                    } else {
-                        Toast.makeText(getActivity(),
-                                R.string.login_incorrect_string,
-                                Toast.LENGTH_SHORT).show();
-                    }
-                }  catch (NullPointerException e) {
-                        Log.e(TAG, "employee String null");
-                        Log.d(TAG, Log.getStackTraceString(e));
-                        Toast.makeText(getActivity(),
-                                R.string.login_no_account,
-                                Toast.LENGTH_SHORT).show();
-            }
+                new UserLoginServices().execute(username, password);
             }
         });
 
@@ -136,4 +120,67 @@ public class LoginHomeFragment extends Fragment implements MiniMapFragment.OnMap
         mMap = mMapFragment.getMap();
     }
 
+    class UserLoginServices extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(getActivity());
+            pDialog.setMessage("Attempting login...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... args) {
+            String username = args[0];
+            String password = args[1];
+
+            int success;
+            try {
+                List<NameValuePair> params = new ArrayList<>();
+                params.add(new BasicNameValuePair("username", username));
+                params.add(new BasicNameValuePair("password", password));
+                Log.d("Request", "Starting");
+                JSONObject json = jp.makeHttpRequest(URL, "POST", params);
+
+                Log.d("Login attempt", json.toString());
+
+                success = json.getInt(TAG_SUCCESS);
+                if (success == 1) {
+                    Log.d("Login Successful!", json.toString());
+                    Fragment display = EmployeeHomeFragment.newInstance(username);
+                    getFragmentManager().beginTransaction()
+                            .addToBackStack("fragment")
+                            .replace(R.id.fragmentContainer, display)
+                            .commit();
+                    return json.getString(TAG_MESSAGE);
+                } else if(success == 2) {
+                    Log.d("Login Successful!", json.toString());
+                    Fragment display = CustomerHomeFragment.newInstance(username);
+                    getFragmentManager().beginTransaction()
+                            .addToBackStack("fragment")
+                            .replace(R.id.fragmentContainer, display)
+                            .commit();
+                    return json.getString(TAG_MESSAGE);
+                } else {
+                    Log.d("Login Failure!", json.getString(TAG_MESSAGE));
+                    return json.getString(TAG_MESSAGE);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(String file_url) {
+            // dismiss the dialog once product deleted
+            pDialog.dismiss();
+            if (file_url != null){
+                Toast.makeText(getActivity(), file_url, Toast.LENGTH_LONG).show();
+            }
+
+        }
+    }
 }
+

@@ -9,8 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.pommerening.quinn.foodtruck.R;
+import com.pommerening.quinn.foodtruck.database.Employee;
 
 public class EmployeeHomeFragment extends Fragment {
+
+    public static EmployeeHomeFragment newInstance(String username) {
+        EmployeeHomeFragment f = new EmployeeHomeFragment();
+        Bundle args = new Bundle();
+        args.putString("username", username);
+        f.setArguments(args);
+        return f;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
