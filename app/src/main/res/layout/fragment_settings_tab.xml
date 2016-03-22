@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/settings_password"
+        android:text="@string/settings_password_title"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        android:hint="@string/settings_password_hint"
+        android:id="@+id/settings_tab_password_str"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/settings_password_confirm"
+        android:text="@string/settings_password_confirm_title"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        android:hint="@string/settings_email_hint"
+        android:id="@+id/settings_tab_password_confirm_str"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/settings_email_title"
+        android:text="@string/settings_email_title"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:textAlignment="center"
+        android:hint="@string/settings_email_hint"
+        android:id="@+id/settings_email_str"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/settings_submit"
+        android:text="@string/settings_submit_button"/>
+
+
+</LinearLayout>

@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">FoodTruck</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_single_fragment">SingleFragmentActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
+
+    <!-- LoginHomeFragment Strings -->
+    <string name="login_name_string">Enter Username</string>
+    <string name="login_password_string">Enter Password</string>
+    <string name="login_button_string">Login</string>
+    <string name="login_new_user_string">Not Registered?</string>
+    <string name="login_forgot_string">Forgot Information?</string>
+    <string name="login_incorrect_string">Information not correct.</string>
+    <string name="login_no_account">Account not registered.</string>
+
+    <!-- Forgot Password Dialog Strings-->
+    <string name="forgot_dialog_email_header">Please enter e-mail address: </string>
+    <string name="forgot_dialog_password_hint">ex: sample@sample.com</string>
+    <string name="forgot_dialog_send">Send</string>
+    <string name="forgot_dialog_cancel">Cancel</string>
+
+    <!-- New Register Dialog Strings -->
+    <string name="register_dialog_info_header">Please Fill Out Information: </string>
+    <string name="register_dialog_username_hint">Username</string>
+    <string name="register_dialog_password_hint">Password</string>
+    <string name="register_dialog_email_hint">E-mail</string>
+    <string name="register_dialog_send">Send</string>
+    <string name="register_dialog_cancel">Cancel</string>
+    <string name="register_dialog_inv_username">Username already in use.</string>
+    <string name="register_dialog_inv_email">Email already use, click forgot information.</string>
+    <string name="register_dialog_success">Account created, welcome.</string>
+    <string name="register_dialog_null_username">Username is invalid.</string>
+    <string name="register_dialog_null_password">Password is invalid.</string>
+    <string name="register_dialog_null_email">Password is invalid.</string>
+
+    <!-- Forgot Dialog Strings-->
+    <string name="information_dialog_email_string">Enter Email Address.</string>
+    <string name="information_dialog_header">Email Retrieval</string>
+    <string name="information_dialog_send">Send</string>
+    <string name="information_dialog_cancel">Cancel</string>
+    <string name="information_dialog_success">Email was sent.</string>
+    <string name="information_dialog_failure">Email address not found, please try again.</string>
+    <string name="information_dialog_not_sent">Email did not send.</string>
+
+    <!--Settings Tab-->
+    <string name="settings_password_title">Change Password: </string>
+    <string name="settings_password_confirm_title">Confirm Password: </string>
+    <string name="settings_email_title">Change Email: </string>
+    <string name="settings_password_hint">New Password</string>
+    <string name="settings_email_hint">New Email Address</string>
+    <string name="settings_submit_button">Submit</string>
+    <string name="settings_invalid">Invalid password, try again.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>
