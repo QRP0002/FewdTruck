@@ -61,7 +61,7 @@ public class NewRegisterDialog extends DialogFragment {
                         R.id.register_dialog_password);
                 final EditText mEmail = (EditText) dialog.findViewById(
                         R.id.register_dialog_email);
-                
+
                 if(v.getId() == R.id.register_dialog_send_button) {
                     String username = mUsername.getText().toString();
                     String password = mPassword.getText().toString();

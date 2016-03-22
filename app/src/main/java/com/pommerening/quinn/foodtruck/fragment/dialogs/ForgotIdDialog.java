@@ -1,6 +1,7 @@
 package com.pommerening.quinn.foodtruck.fragment.dialogs;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pommerening.quinn.foodtruck.pojo.JSONParser;
 import com.pommerening.quinn.foodtruck.pojo.Mail;
 import com.pommerening.quinn.foodtruck.pojo.RetrieveEmail;
 import com.pommerening.quinn.foodtruck.R;
@@ -23,7 +25,14 @@ public class ForgotIdDialog extends DialogFragment {
     private Button mCancelButton;
     private EditText mEmail;
     private TextView mHeader;
-    public final String TAG = "TAG";
+
+    private ProgressDialog pDialog;
+    JSONParser jp = new JSONParser();
+    private static final String URL = "http://192.168.1.72/webservice/recover.php";
+    private static final String TAG_SUCCESS = "success";
+    private static final String TAG_MESSAGE = "message";
+    private static final String TAG_USERNAME = "username";
+    private static final String TAG_PASSWORD = "password";
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -62,13 +71,13 @@ public class ForgotIdDialog extends DialogFragment {
                         if(v.getId() == R.id.forgot_id_send_button) {
                             final String email = mEmail.getText().toString();
                             RetrieveEmail re = new RetrieveEmail(getActivity());
-                            Mail m = new Mail("qpommer0@gmail.com", "flashman0");
+                            Mail m = new Mail("fewdtruck@gmail.com", "104Bigrig");
                             String[] toArray = new String[1];
 
                             if(re.emailSearch(email)) {
                                 toArray[0] = email;
                             } else {
-                                // TODO: Make sure the toast works here.
+
                                 Toast.makeText(getActivity(),
                                         R.string.information_dialog_failure,
                                         Toast.LENGTH_SHORT).show();
