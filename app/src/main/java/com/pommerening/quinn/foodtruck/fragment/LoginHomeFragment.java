@@ -46,7 +46,6 @@ public class LoginHomeFragment extends Fragment implements MiniMapFragment.OnMap
     private FragmentManager fm;
     private SupportMapFragment mMapFragment;
     private GoogleMap mMap;
-    private final String TAG = "LoginHomeFragment";
     private ProgressDialog pDialog;
 
     JSONParser jp = new JSONParser();
