@@ -66,7 +66,6 @@ public class NewRegisterDialog extends DialogFragment {
                     String username = mUsername.getText().toString();
                     String password = mPassword.getText().toString();
                     String email = mEmail.getText().toString();
-                    Log.d("Fifty:", username);
                     new CreationService().execute(username, password, email);
                 }
             }
@@ -134,7 +133,6 @@ public class NewRegisterDialog extends DialogFragment {
         }
 
         protected void onPostExecute(String file_url) {
-            // dismiss the dialog once product deleted
             pDialog.dismiss();
             if (file_url != null){
                 Toast.makeText(getActivity(), file_url, Toast.LENGTH_LONG).show();
