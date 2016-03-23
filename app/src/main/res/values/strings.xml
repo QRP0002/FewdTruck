@@ -54,4 +54,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!--Employee Inventory Fragment -->
+    <string name="emp_load_inv_str">Inventory</string>
+    <string name="emp_inv_add_button">Add Item</string>
 </resources>

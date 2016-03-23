@@ -47,17 +47,13 @@ public class LoginHomeFragment extends Fragment implements MiniMapFragment.OnMap
     private SupportMapFragment mMapFragment;
     private GoogleMap mMap;
     private ProgressDialog pDialog;
+    private String usernameSend;
 
     JSONParser jp = new JSONParser();
     private static final String URL = "http://192.168.1.72:80/webservice/login.php";
-    //private static final String URL_EMP = "http://192.168.1.72:80/webservice/emplogin.php";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
-
-    public static LoginHomeFragment newInstance() {
-        LoginHomeFragment f = new LoginHomeFragment();
-        return f;
-    }
+    private static final String TAG_USERNAME = "username";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -119,7 +115,7 @@ public class LoginHomeFragment extends Fragment implements MiniMapFragment.OnMap
         mMap = mMapFragment.getMap();
     }
 
-    class UserLoginServices extends AsyncTask<String, String, String> {
+    public class UserLoginServices extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -143,12 +139,11 @@ public class LoginHomeFragment extends Fragment implements MiniMapFragment.OnMap
                 Log.d("Request", "Starting");
                 JSONObject json = jp.makeHttpRequest(URL, "POST", params);
 
-                Log.d("Login attempt", json.toString());
-
                 success = json.getInt(TAG_SUCCESS);
                 if (success == 1) {
                     Log.d("Login Successful!", json.toString());
-                    Fragment display = EmployeeHomeFragment.newInstance(username);
+                    usernameSend = json.getString(TAG_USERNAME);
+                    Fragment display = EmployeeHomeFragment.newInstance(usernameSend);
                     getFragmentManager().beginTransaction()
                             .addToBackStack("fragment")
                             .replace(R.id.fragmentContainer, display)
@@ -156,7 +151,8 @@ public class LoginHomeFragment extends Fragment implements MiniMapFragment.OnMap
                     return json.getString(TAG_MESSAGE);
                 } else if(success == 2) {
                     Log.d("Login Successful!", json.toString());
-                    Fragment display = CustomerHomeFragment.newInstance(username);
+                    usernameSend = json.getString(TAG_USERNAME);
+                    Fragment display = CustomerHomeFragment.newInstance(usernameSend);
                     getFragmentManager().beginTransaction()
                             .addToBackStack("fragment")
                             .replace(R.id.fragmentContainer, display)

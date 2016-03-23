@@ -82,7 +82,7 @@ public class ForgotIdDialog extends DialogFragment {
         });
         return view;
     }
-    class EmailRecoverService extends AsyncTask<String, String, String> {
+    public class EmailRecoverService extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();

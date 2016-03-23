@@ -39,6 +39,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/login_name_id"
             android:textAlignment="center"
+            android:singleLine="true"
             android:hint="@string/login_name_string" />
 
         <EditText
@@ -46,6 +47,7 @@
             android:inputType="textPassword"
             android:layout_height="wrap_content"
             android:textAlignment="center"
+            android:singleLine="true"
             android:id="@+id/login_password_id"
             android:hint="@string/login_password_string"/>
 

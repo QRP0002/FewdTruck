@@ -1,4 +1,4 @@
-package com.pommerening.quinn.foodtruck.fragment.tabs;
+package com.pommerening.quinn.foodtruck.fragment.tabs.customer;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
