@@ -143,8 +143,6 @@ public class LoginHomeFragment extends Fragment implements MiniMapFragment.OnMap
                 Log.d("Request", "Starting");
                 JSONObject json = jp.makeHttpRequest(URL, "POST", params);
 
-                Log.d("Login attempt", json.toString());
-
                 success = json.getInt(TAG_SUCCESS);
                 if (success == 1) {
                     Log.d("Login Successful!", json.toString());
