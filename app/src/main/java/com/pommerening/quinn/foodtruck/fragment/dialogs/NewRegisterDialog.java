@@ -83,7 +83,7 @@ public class NewRegisterDialog extends DialogFragment {
         return view;
     }
 
-    class CreationService extends AsyncTask<String, String, String> {
+    public class CreationService extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
