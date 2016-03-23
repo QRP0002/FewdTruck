@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">FoodTruck</string>
+    <string name="app_name">Fewd Truck</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_single_fragment">SingleFragmentActivity</string>
-    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_login">Fewd Truck</string>
 
     <!-- LoginHomeFragment Strings -->
     <string name="login_name_string">Enter Username</string>
