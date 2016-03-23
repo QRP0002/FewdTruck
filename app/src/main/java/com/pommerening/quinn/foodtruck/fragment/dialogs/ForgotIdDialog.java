@@ -144,7 +144,7 @@ public class ForgotIdDialog extends DialogFragment {
 
             toArray[0] = email;
             m.set_to(toArray);
-            m.set_from("fewdtruck@gmail.com");
+            m.set_from("username");
             m.set_subject("Account Information");
             m.set_body("Username: " + collectedUsername
                     + "\nPassword: " + collectedPassword);
