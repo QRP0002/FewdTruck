@@ -66,7 +66,6 @@ public class NewRegisterDialog extends DialogFragment {
                     String username = mUsername.getText().toString();
                     String password = mPassword.getText().toString();
                     String email = mEmail.getText().toString();
-                    Log.d("Fifty:", username);
                     new CreationService().execute(username, password, email);
                 }
             }
