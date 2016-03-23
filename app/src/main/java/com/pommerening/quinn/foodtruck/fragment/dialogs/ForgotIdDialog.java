@@ -2,6 +2,7 @@ package com.pommerening.quinn.foodtruck.fragment.dialogs;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
@@ -16,8 +17,15 @@ import android.widget.Toast;
 
 import com.pommerening.quinn.foodtruck.pojo.JSONParser;
 import com.pommerening.quinn.foodtruck.pojo.Mail;
-import com.pommerening.quinn.foodtruck.pojo.RetrieveEmail;
 import com.pommerening.quinn.foodtruck.R;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ForgotIdDialog extends DialogFragment {
     private Dialog mDialog;
@@ -25,9 +33,10 @@ public class ForgotIdDialog extends DialogFragment {
     private Button mCancelButton;
     private EditText mEmail;
     private TextView mHeader;
+    private String collectedUsername;
+    private String collectedPassword;
 
     private ProgressDialog pDialog;
-    JSONParser jp = new JSONParser();
     private static final String URL = "http://192.168.1.72/webservice/recover.php";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
@@ -64,50 +73,87 @@ public class ForgotIdDialog extends DialogFragment {
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mEmail = (EditText) view.findViewById(R.id.forgot_id_email_et);
-                        if(v.getId() == R.id.forgot_id_send_button) {
-                            final String email = mEmail.getText().toString();
-                            RetrieveEmail re = new RetrieveEmail(getActivity());
-                            Mail m = new Mail("fewdtruck@gmail.com", "104Bigrig");
-                            String[] toArray = new String[1];
-
-                            if(re.emailSearch(email)) {
-                                toArray[0] = email;
-                            } else {
-
-                                Toast.makeText(getActivity(),
-                                        R.string.information_dialog_failure,
-                                        Toast.LENGTH_SHORT).show();
-                            }
-
-                            m.set_to(toArray);
-                            m.set_from("qpommer0@gmail.com");
-                            m.set_subject("Account Information");
-                            String temp = re.getEmailInformation(email);
-                            m.set_body(re.getEmailInformation(email));
-
-                            try{
-                                if(m.send()) {
-                                    // TODO: Add a toast here.
-                                    mDialog.dismiss();
-                                } else {
-                                    // TODO: Make sure the toast works here.
-                                    Toast.makeText(getActivity(),
-                                            R.string.information_dialog_not_sent,
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            } catch(Exception e) {
-                                Log.e("Food Truck", "Could not send email", e);
-                            }
-                        }
-                    }
-                }).start();
+                mEmail = (EditText) view.findViewById(R.id.forgot_id_email_et);
+                if(v.getId() == R.id.forgot_id_send_button) {
+                    final String email = mEmail.getText().toString();
+                    new EmailRecoverService().execute(email);
+                }
             }
         });
         return view;
     }
+    class EmailRecoverService extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(getActivity());
+            pDialog.setMessage("Retrieving Information...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
 
+        @Override
+        protected String doInBackground(String... args) {
+            String email = args[0];
+            String output = setInformation(email);
+            sendInformation(email);
+
+            return output;
+        }
+
+        protected void onPostExecute(String file_url) {
+            pDialog.dismiss();
+            if (file_url != null){
+                Toast.makeText(getActivity(), file_url, Toast.LENGTH_LONG).show();
+                if(file_url.equals("Email Sent!")) {
+                    mDialog.dismiss();
+                }
+            }
+        }
+
+        public String setInformation(String email) {
+            int success;
+
+            try {
+                List<NameValuePair> params = new ArrayList<>();
+                params.add(new BasicNameValuePair("email", email));
+                JSONParser jParser = new JSONParser();
+                JSONObject json = jParser.makeHttpRequest(URL, "POST", params);
+
+                Log.d("Recovery Attempt", json.toString());
+                success = json.getInt(TAG_SUCCESS);
+                if (success == 1) {
+                    Log.d("Email Information!", json.toString());
+                    collectedPassword = json.getString(TAG_PASSWORD);
+                    collectedUsername = json.getString(TAG_USERNAME);
+                    return json.getString(TAG_MESSAGE);
+                } else {
+                    Log.d("Login Failure!", json.getString(TAG_MESSAGE));
+                    return json.getString(TAG_MESSAGE);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        public void sendInformation(String email) {
+            Mail m = new Mail("username", "password");
+            String[] toArray = new String[1];
+
+            toArray[0] = email;
+            m.set_to(toArray);
+            m.set_from("fewdtruck@gmail.com");
+            m.set_subject("Account Information");
+            m.set_body("Username: " + collectedUsername
+                    + "\nPassword: " + collectedPassword);
+            try{
+                m.send();
+            } catch (Exception e) {
+                Log.e("Food Truck", "Could not send email", e);
+            }
+        }
+
+    }
 }

@@ -133,7 +133,6 @@ public class NewRegisterDialog extends DialogFragment {
         }
 
         protected void onPostExecute(String file_url) {
-            // dismiss the dialog once product deleted
             pDialog.dismiss();
             if (file_url != null){
                 Toast.makeText(getActivity(), file_url, Toast.LENGTH_LONG).show();
