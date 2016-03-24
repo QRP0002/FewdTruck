@@ -39,6 +39,7 @@ public class AddInventoryDialog extends DialogFragment {
     private static final String URL = "http://192.168.1.72/webservice/addinv.php";
     private ProgressDialog pDialog;
     private RefreshInterface callback;
+    private boolean itemAddedTracker = false;
 
     public static AddInventoryDialog newInstance(String username) {
         AddInventoryDialog f = new AddInventoryDialog();
@@ -80,6 +81,7 @@ public class AddInventoryDialog extends DialogFragment {
                     final String productName = mProdNameEditText.getText().toString();
                     final String productPrice = mProdPriceEditText.getText().toString();
                     new AddInventory().execute(mUsername, productName, productPrice);
+                    itemAddedTracker = true;
                 }
             }
         });
@@ -89,7 +91,9 @@ public class AddInventoryDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 if (v.getId() == R.id.add_dialog_cancel_button) {
-                    callback.refreshJobsScreen();
+                    if(itemAddedTracker) {
+                        callback.refreshJobsScreen();
+                    }
                     mDialog.dismiss();
                 }
             }
