@@ -1,8 +1,13 @@
 package com.pommerening.quinn.foodtruck.fragment.tabs.employee;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.SyncStateContract;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -17,7 +22,6 @@ import android.widget.ListView;
 
 import com.pommerening.quinn.foodtruck.R;
 import com.pommerening.quinn.foodtruck.fragment.dialogs.AddInventoryDialog;
-import com.pommerening.quinn.foodtruck.fragment.dialogs.ForgotIdDialog;
 import com.pommerening.quinn.foodtruck.pojo.JSONParser;
 
 import org.apache.http.NameValuePair;
@@ -31,7 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class EmployeeItemsFragment extends Fragment {
+public class EmployeeItemsFragment extends Fragment implements AddInventoryDialog.RefreshInterface{
     private String mUsername;
     private ProgressDialog pDialog;
     private static final String URL = "http://192.168.1.72:80/webservice/loadempinv.php";
@@ -70,6 +74,7 @@ public class EmployeeItemsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 DialogFragment newFragment = AddInventoryDialog.newInstance(mUsername);
+                newFragment.setTargetFragment(EmployeeItemsFragment.this, 1);
                 newFragment.show(getActivity().getSupportFragmentManager(), "add dialog");
             }
         });
@@ -79,8 +84,16 @@ public class EmployeeItemsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        Log.d("OnReumse: ", "OnResume was called");
         new LoadInformation().execute(mUsername);
     }
+
+    @Override
+    public void refreshJobsScreen() {
+        Log.d("Hope:", "JobScreen Refreshed");
+        new LoadInformation().execute(mUsername);
+    }
+
 
     public class LoadInformation extends AsyncTask<String, Void, Boolean> {
         @Override
@@ -107,6 +120,7 @@ public class EmployeeItemsFragment extends Fragment {
             setData(lv);
             pDialog.dismiss();
         }
+
     }
 
     public void getData(String username) {
@@ -160,5 +174,13 @@ public class EmployeeItemsFragment extends Fragment {
                                     int position, long id) {
             }
         });
+    }
+
+    private class YourDialogFragmentDismissHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            new LoadInformation().execute(mUsername);
+        }
     }
 }

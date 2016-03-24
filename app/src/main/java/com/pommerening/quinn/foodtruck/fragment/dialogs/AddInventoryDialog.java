@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,7 @@ public class AddInventoryDialog extends DialogFragment {
     private static final String TAG_MESSAGE = "message";
     private static final String URL = "http://192.168.1.72/webservice/addinv.php";
     private ProgressDialog pDialog;
+    private RefreshInterface callback;
 
     public static AddInventoryDialog newInstance(String username) {
         AddInventoryDialog f = new AddInventoryDialog();
@@ -49,12 +51,18 @@ public class AddInventoryDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         mUsername = getArguments().getString("username");
+        try {
+            callback = (RefreshInterface) getTargetFragment();
+        } catch (ClassCastException e) {
+            throw new ClassCastException("Calling fragment must implement PasswordCreatedListener interface");
+        }
         mDialog = new Dialog(getActivity());
         mDialog.setCanceledOnTouchOutside(false);
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         mDialog.setContentView(R.layout.fragment_forgot_id_dialog);
         return mDialog;
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,7 +76,7 @@ public class AddInventoryDialog extends DialogFragment {
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(v.getId() == R.id.add_dialog_add_button) {
+                if (v.getId() == R.id.add_dialog_add_button) {
                     final String productName = mProdNameEditText.getText().toString();
                     final String productPrice = mProdPriceEditText.getText().toString();
                     new AddInventory().execute(mUsername, productName, productPrice);
@@ -80,7 +88,8 @@ public class AddInventoryDialog extends DialogFragment {
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(v.getId() == R.id.add_dialog_cancel_button) {
+                if (v.getId() == R.id.add_dialog_cancel_button) {
+                    callback.refreshJobsScreen();
                     mDialog.dismiss();
                 }
             }
@@ -88,6 +97,7 @@ public class AddInventoryDialog extends DialogFragment {
 
         return view;
     }
+
 
     public class AddInventory extends AsyncTask<String, String, String> {
         @Override
@@ -143,5 +153,9 @@ public class AddInventoryDialog extends DialogFragment {
             }
             return null;
         }
+    }
+
+    public interface RefreshInterface{
+        void refreshJobsScreen();
     }
 }
