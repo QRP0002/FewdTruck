@@ -98,7 +98,6 @@ public class ForgotIdDialog extends DialogFragment {
             String email = args[0];
             String output = setInformation(email);
             sendInformation(email);
-
             return output;
         }
 
