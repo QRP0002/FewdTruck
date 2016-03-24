@@ -1,4 +1,4 @@
-package com.pommerening.quinn.foodtruck.fragment.tabs.customer;
+package com.pommerening.quinn.foodtruck.fragment.tabs.employee;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
@@ -9,9 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.SimpleAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 import com.pommerening.quinn.foodtruck.R;
 import com.pommerening.quinn.foodtruck.pojo.JSONParser;
@@ -26,22 +26,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ItemsTabFragment extends Fragment {
-    private String mUSername;
-    private ListView lv;
+
+public class EmployeeItemsFragment extends Fragment {
+    private String mUsername;
     private ProgressDialog pDialog;
-    private static final String URL = "http://192.168.1.72:80/webservice/custloadinv.php";
+    private static final String URL = "http://192.168.1.72:80/webservice/loadempinv.php";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_PRODNAME = "prodname";
     private static final String TAG_PRODPRICE = "prodprice";
     private static final String TAG_POSTS = "posts";
-
+    private ListView lv;
 
     private JSONArray mInventory = null;
     private ArrayList<HashMap<String, String>> mInventoryList;
 
-    public static ItemsTabFragment newInstance(String username) {
-        ItemsTabFragment f = new ItemsTabFragment();
+    public static EmployeeItemsFragment newInstance(String username) {
+        EmployeeItemsFragment f = new EmployeeItemsFragment();
         Bundle args = new Bundle();
         args.putString("username", username);
         f.setArguments(args);
@@ -51,24 +51,24 @@ public class ItemsTabFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mUSername = getArguments().getString("username");
+        mUsername = getArguments().getString("username");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_items_tab, container, false);
-        lv = (ListView) view.findViewById(R.id.cust_list_view);
+        View view = inflater.inflate(R.layout.fragment_employee_items, container, false);
+        lv = (ListView) view.findViewById(R.id.emp_list_view);
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        new CustomerInventory().execute();
+        new LoadInformation().execute(mUsername);
     }
 
-    public class CustomerInventory extends AsyncTask<Void, Void, Boolean> {
+    public class LoadInformation extends AsyncTask<String, Void, Boolean> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -80,25 +80,37 @@ public class ItemsTabFragment extends Fragment {
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
-            getJSONData();
+        protected Boolean doInBackground(String... args) {
+            String username = args[0];
+            getData(username);
             return null;
+
         }
 
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-            setJSONData();
+            setData(lv);
             pDialog.dismiss();
         }
+    }
 
-        public void getJSONData() {
-            mInventoryList = new ArrayList<HashMap<String, String>>();
+    public void getData(String username) {
+        mInventoryList = new ArrayList<HashMap<String, String>>();
+        int success;
+
+        try {
             JSONParser jParser = new JSONParser();
+            List<NameValuePair> params = new ArrayList<>();
+            params.add(new BasicNameValuePair("username", username));
 
-            try {
-                Log.d("Request", "Starting");
-                JSONObject json = jParser.getJSONFromUrl(URL);
+            Log.d("Request", "Starting");
+            JSONObject json = jParser.makeHttpRequest(URL, "POST", params);
+
+            success = json.getInt(TAG_SUCCESS);
+            Log.d("Success: ", json.getString(TAG_SUCCESS));
+
+            if (success == 1) {
                 mInventory = json.getJSONArray(TAG_POSTS);
 
                 for (int i = 0; i < mInventory.length(); i++) {
@@ -106,31 +118,33 @@ public class ItemsTabFragment extends Fragment {
 
                     String prodName = c.getString(TAG_PRODNAME);
                     String prodPrice = c.getString(TAG_PRODPRICE);
+                    Log.d("Product name: ", prodName);
 
                     HashMap<String, String> map = new HashMap<String, String>();
+
                     map.put(TAG_PRODNAME, prodName);
                     map.put(TAG_PRODPRICE, prodPrice);
+
                     mInventoryList.add(map);
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
-        }
-
-        public void setJSONData() {
-            ListAdapter adapter = new SimpleAdapter(getActivity(), mInventoryList,
-                    R.layout.cust_list_view, new String[] {TAG_PRODNAME, TAG_PRODPRICE},
-                    new int[] {R.id.cust_prod_name, R.id.cust_prod_price});
-
-            lv.setAdapter(adapter);
-            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view,
-                                        int position, long id) {
-                }
-            });
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
+    public void setData(ListView lv) {
+        ListAdapter adapter = new SimpleAdapter(getActivity(), mInventoryList,
+                R.layout.grid_list, new String[] {TAG_PRODNAME, TAG_PRODPRICE},
+                new int[] {R.id.item1, R.id.item2});
+
+        lv.setAdapter(adapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+            }
+        });
+    }
 }

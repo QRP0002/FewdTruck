@@ -6,9 +6,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.google.android.gms.maps.SupportMapFragment;
 import com.pommerening.quinn.foodtruck.fragment.MiniMapFragment;
-import com.pommerening.quinn.foodtruck.fragment.tabs.FavoritesTabFragment;
-import com.pommerening.quinn.foodtruck.fragment.tabs.ItemsTabFragment;
-import com.pommerening.quinn.foodtruck.fragment.tabs.SettingsTabFragment;
+import com.pommerening.quinn.foodtruck.fragment.tabs.customer.FavoritesTabFragment;
+import com.pommerening.quinn.foodtruck.fragment.tabs.customer.ItemsTabFragment;
+import com.pommerening.quinn.foodtruck.fragment.tabs.customer.SettingsTabFragment;
 
 /**
  *
@@ -31,7 +31,7 @@ public class CustomerPagerAdapter extends FragmentStatePagerAdapter {
                 SupportMapFragment tabMap = MiniMapFragment.newInstance();
                 return tabMap;
             case 1:
-                ItemsTabFragment itemsTab = new ItemsTabFragment();
+                ItemsTabFragment itemsTab = ItemsTabFragment.newInstance(mUsername);
                 return itemsTab;
             case 2:
                 FavoritesTabFragment favTab = new FavoritesTabFragment();
