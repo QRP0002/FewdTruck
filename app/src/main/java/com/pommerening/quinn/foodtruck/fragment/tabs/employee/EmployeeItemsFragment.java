@@ -162,16 +162,16 @@ public class EmployeeItemsFragment extends Fragment implements AddInventoryDialo
     }
 
     public void setData(ListView lv) {
-        ListAdapter adapter = new SimpleAdapter(getActivity(), mInventoryList,
+        final ListAdapter adapter = new SimpleAdapter(getActivity(), mInventoryList,
                 R.layout.grid_list, new String[] {TAG_PRODNAME, TAG_PRODPRICE},
                 new int[] {R.id.item1, R.id.item2});
 
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
+                String value = (String) adapter.getItem(position);
             }
         });
     }
