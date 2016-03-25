@@ -1,0 +1,52 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="@string/register_dialog_info_header"
+        android:gravity="center"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:hint="@string/add_dialog_prod_name_hint"
+        android:singleLine="true"
+        android:id="@+id/add_dialog_prod_name"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:inputType="numberDecimal"
+        android:singleLine="true"
+        android:hint="@string/add_dialog_prod_price_hint"
+        android:id="@+id/add_dialog_prod_price"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_dialog_add_button"
+            android:id="@+id/add_dialog_add_button"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_dialog_cancel_button"
+            android:id="@+id/add_dialog_cancel_button"/>
+
+    </LinearLayout>
+
+</LinearLayout>

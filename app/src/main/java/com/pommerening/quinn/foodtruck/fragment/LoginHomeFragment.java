@@ -1,7 +1,6 @@
 package com.pommerening.quinn.foodtruck.fragment;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,10 +18,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.pommerening.quinn.foodtruck.database.Employee;
 import com.pommerening.quinn.foodtruck.fragment.dialogs.ForgotIdDialog;
 import com.pommerening.quinn.foodtruck.fragment.dialogs.NewRegisterDialog;
-import com.pommerening.quinn.foodtruck.pojo.EmployeeLoad;
 import com.pommerening.quinn.foodtruck.pojo.JSONParser;
 import com.pommerening.quinn.foodtruck.R;
 import com.pommerening.quinn.foodtruck.pojo.TimeOfDay;

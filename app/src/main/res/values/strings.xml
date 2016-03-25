@@ -57,4 +57,10 @@
     <!--Employee Inventory Fragment -->
     <string name="emp_load_inv_str">Inventory</string>
     <string name="emp_inv_add_button">Add Item</string>
+
+    <!--Add Inventory Dialog -->
+    <string name="add_dialog_add_button">Add Item</string>
+    <string name="add_dialog_cancel_button">Cancel</string>
+    <string name="add_dialog_prod_name_hint">Product Name</string>
+    <string name="add_dialog_prod_price_hint">Product Price</string>
 </resources>

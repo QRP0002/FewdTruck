@@ -1,19 +1,27 @@
 package com.pommerening.quinn.foodtruck.fragment.tabs.employee;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.SyncStateContract;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.SimpleAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.pommerening.quinn.foodtruck.R;
+import com.pommerening.quinn.foodtruck.fragment.dialogs.AddInventoryDialog;
 import com.pommerening.quinn.foodtruck.pojo.JSONParser;
 
 import org.apache.http.NameValuePair;
@@ -27,7 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class EmployeeItemsFragment extends Fragment {
+public class EmployeeItemsFragment extends Fragment implements AddInventoryDialog.RefreshInterface{
     private String mUsername;
     private ProgressDialog pDialog;
     private static final String URL = "http://192.168.1.72:80/webservice/loadempinv.php";
@@ -36,6 +44,7 @@ public class EmployeeItemsFragment extends Fragment {
     private static final String TAG_PRODPRICE = "prodprice";
     private static final String TAG_POSTS = "posts";
     private ListView lv;
+    private Button mAddButton;
 
     private JSONArray mInventory = null;
     private ArrayList<HashMap<String, String>> mInventoryList;
@@ -59,14 +68,32 @@ public class EmployeeItemsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_employee_items, container, false);
         lv = (ListView) view.findViewById(R.id.emp_list_view);
+
+        mAddButton = (Button) view.findViewById(R.id.emp_inv_add_button);
+        mAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment newFragment = AddInventoryDialog.newInstance(mUsername);
+                newFragment.setTargetFragment(EmployeeItemsFragment.this, 1);
+                newFragment.show(getActivity().getSupportFragmentManager(), "add dialog");
+            }
+        });
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        Log.d("OnReumse: ", "OnResume was called");
         new LoadInformation().execute(mUsername);
     }
+
+    @Override
+    public void refreshJobsScreen() {
+        Log.d("Hope:", "JobScreen Refreshed");
+        new LoadInformation().execute(mUsername);
+    }
+
 
     public class LoadInformation extends AsyncTask<String, Void, Boolean> {
         @Override
@@ -93,6 +120,7 @@ public class EmployeeItemsFragment extends Fragment {
             setData(lv);
             pDialog.dismiss();
         }
+
     }
 
     public void getData(String username) {
@@ -134,17 +162,25 @@ public class EmployeeItemsFragment extends Fragment {
     }
 
     public void setData(ListView lv) {
-        ListAdapter adapter = new SimpleAdapter(getActivity(), mInventoryList,
+        final ListAdapter adapter = new SimpleAdapter(getActivity(), mInventoryList,
                 R.layout.grid_list, new String[] {TAG_PRODNAME, TAG_PRODPRICE},
                 new int[] {R.id.item1, R.id.item2});
 
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
+                String value = (String) adapter.getItem(position);
             }
         });
+    }
+
+    private class YourDialogFragmentDismissHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            new LoadInformation().execute(mUsername);
+        }
     }
 }
