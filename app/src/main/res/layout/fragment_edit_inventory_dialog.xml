@@ -7,6 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/edit_inv_name_et"
+        android:singleLine="true"
         android:gravity="center"
         android:textAlignment="center"/>
 
@@ -14,6 +15,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/edit_inv_price_et"
+        android:inputType="numberDecimal"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
         android:gravity="center"
         android:textAlignment="center" />
 
