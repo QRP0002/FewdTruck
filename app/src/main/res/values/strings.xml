@@ -63,4 +63,9 @@
     <string name="add_dialog_cancel_button">Cancel</string>
     <string name="add_dialog_prod_name_hint">Product Name</string>
     <string name="add_dialog_prod_price_hint">Product Price</string>
+
+    <!-- Edit Inventory Dialog -->
+    <string name="edit_inv_edit_button">Save Edit</string>
+    <string name="edit_inv_cancel_button">Cancel</string>
+    <string name="edit_inv_delete_button">Remove Item</string>
 </resources>

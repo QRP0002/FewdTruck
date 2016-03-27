@@ -22,7 +22,9 @@ import android.widget.ListView;
 
 import com.pommerening.quinn.foodtruck.R;
 import com.pommerening.quinn.foodtruck.fragment.dialogs.AddInventoryDialog;
+import com.pommerening.quinn.foodtruck.fragment.dialogs.EditInventoryDialog;
 import com.pommerening.quinn.foodtruck.pojo.JSONParser;
+import com.pommerening.quinn.foodtruck.pojo.RefreshScreenInterface;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -35,7 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class EmployeeItemsFragment extends Fragment implements AddInventoryDialog.RefreshInterface{
+public class EmployeeItemsFragment extends Fragment implements RefreshScreenInterface{
     private String mUsername;
     private ProgressDialog pDialog;
     private static final String URL = "http://192.168.1.72:80/webservice/loadempinv.php";
@@ -43,6 +45,7 @@ public class EmployeeItemsFragment extends Fragment implements AddInventoryDialo
     private static final String TAG_PRODNAME = "prodname";
     private static final String TAG_PRODPRICE = "prodprice";
     private static final String TAG_POSTS = "posts";
+    private static final String TAG_PRODID = "prodid";
     private ListView lv;
     private Button mAddButton;
 
@@ -89,7 +92,7 @@ public class EmployeeItemsFragment extends Fragment implements AddInventoryDialo
     }
 
     @Override
-    public void refreshJobsScreen() {
+    public void refreshScreen() {
         Log.d("Hope:", "JobScreen Refreshed");
         new LoadInformation().execute(mUsername);
     }
@@ -146,13 +149,14 @@ public class EmployeeItemsFragment extends Fragment implements AddInventoryDialo
 
                     String prodName = c.getString(TAG_PRODNAME);
                     String prodPrice = c.getString(TAG_PRODPRICE);
+                    String prodID = c.getString(TAG_PRODID);
                     Log.d("Product name: ", prodName);
 
                     HashMap<String, String> map = new HashMap<String, String>();
 
                     map.put(TAG_PRODNAME, prodName);
                     map.put(TAG_PRODPRICE, prodPrice);
-
+                    map.put(TAG_PRODID, prodID);
                     mInventoryList.add(map);
                 }
             }
@@ -171,16 +175,16 @@ public class EmployeeItemsFragment extends Fragment implements AddInventoryDialo
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                String value = (String) adapter.getItem(position);
+                long arrayPosition = adapter.getItemId(position);
+                String nameSend = mInventoryList.get((int)arrayPosition).get(TAG_PRODNAME);
+                String priceSend = mInventoryList.get((int)arrayPosition).get(TAG_PRODPRICE);
+                String idSend = mInventoryList.get((int)arrayPosition).get(TAG_PRODID);
+
+                DialogFragment newFragment = EditInventoryDialog.newInstance(nameSend,
+                        priceSend, idSend);
+                newFragment.setTargetFragment(EmployeeItemsFragment.this, 1);
+                newFragment.show(getActivity().getSupportFragmentManager(), "edit dialog");
             }
         });
-    }
-
-    private class YourDialogFragmentDismissHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            new LoadInformation().execute(mUsername);
-        }
     }
 }
