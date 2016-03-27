@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.pommerening.quinn.foodtruck.R;
 import com.pommerening.quinn.foodtruck.pojo.JSONParser;
+import com.pommerening.quinn.foodtruck.pojo.RefreshScreenInterface;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -37,7 +38,7 @@ public class AddInventoryDialog extends DialogFragment {
     private static final String TAG_MESSAGE = "message";
     private static final String URL = "http://192.168.1.72/webservice/addinv.php";
     private ProgressDialog pDialog;
-    private RefreshInterface callback;
+    private RefreshScreenInterface callback;
     private boolean itemAddedTracker = false;
 
     public static AddInventoryDialog newInstance(String username) {
@@ -51,11 +52,7 @@ public class AddInventoryDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         mUsername = getArguments().getString("username");
-        try {
-            callback = (RefreshInterface) getTargetFragment();
-        } catch (ClassCastException e) {
-            throw new ClassCastException("Calling fragment must implement PasswordCreatedListener interface");
-        }
+        callback = (RefreshScreenInterface) getTargetFragment();
         mDialog = new Dialog(getActivity());
         mDialog.setCanceledOnTouchOutside(false);
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -91,7 +88,7 @@ public class AddInventoryDialog extends DialogFragment {
             public void onClick(View v) {
                 if (v.getId() == R.id.add_dialog_cancel_button) {
                     if(itemAddedTracker) {
-                        callback.refreshJobsScreen();
+                        callback.refreshScreen();
                     }
                     mDialog.dismiss();
                 }
@@ -156,9 +153,5 @@ public class AddInventoryDialog extends DialogFragment {
             }
             return null;
         }
-    }
-
-    public interface RefreshInterface{
-        void refreshJobsScreen();
     }
 }
