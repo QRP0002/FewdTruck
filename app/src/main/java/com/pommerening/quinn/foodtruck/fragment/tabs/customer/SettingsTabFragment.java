@@ -5,8 +5,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.pommerening.quinn.foodtruck.R;
@@ -16,12 +18,12 @@ import com.pommerening.quinn.foodtruck.pojo.PasswordChecker;
 import io.realm.Realm;
 
 public class SettingsTabFragment extends Fragment {
-    private Button mSubmitButton;
-    private EditText mPassword;
     private String mUsername;
-    private EditText mConfirmedPassword;
-    private EditText mEmail;
-    private Realm realm;
+    private EditText mPasswordET;
+    private EditText mConfirmET;
+    private EditText mNameET;
+    private EditText mEmailET;
+    private Spinner mRangeSpinner;
 
     public static SettingsTabFragment newInstance(String username) {
         SettingsTabFragment f = new SettingsTabFragment();
@@ -43,38 +45,11 @@ public class SettingsTabFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings_tab, container, false);
 
-        mPassword = (EditText)view.findViewById(R.id.settings_tab_password_str);
-        mConfirmedPassword = (EditText) view.findViewById(R.id.settings_tab_password_confirm_str);
-        mEmail = (EditText) view.findViewById(R.id.settings_email_str);
-
-        mSubmitButton = (Button) view.findViewById(R.id.settings_submit);
-        mSubmitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PasswordChecker pc = new PasswordChecker();
-                final String newPassword = mPassword.getText().toString();
-                final String newConfirmedPassword = mConfirmedPassword.getText().toString();
-                final String newEmail = mEmail.getText().toString();
-
-                if(pc.passwordConfirmed(newPassword, newConfirmedPassword)) {
-                    realm = Realm.getInstance(getActivity());
-                    realm.executeTransaction(new Realm.Transaction() {
-                        @Override
-                        public void execute(Realm realm) {
-                            User user = realm.where(User.class)
-                                    .equalTo("username", mUsername)
-                                    .findFirst();
-                            user.setPassword(newPassword);
-                            user.setEmail(newEmail);
-                        }
-                    });
-                } else {
-                    Toast.makeText(getActivity(),
-                            R.string.settings_invalid,
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        mRangeSpinner = (Spinner) view.findViewById(R.id.settings_range_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.range_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mRangeSpinner.setAdapter(adapter);
 
         return view;
     }
