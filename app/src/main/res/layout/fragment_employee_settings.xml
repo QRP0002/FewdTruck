@@ -1,13 +1,157 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.pommerening.quinn.foodtruck.fragment.tabs.employee.EmployeeSettingsFragment">
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/emp_set_header"
+                android:layout_marginTop="40dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:textSize="16sp"
+                android:text="@string/emp_set_edit_title"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@android:color/black"
+                android:layout_below="@+id/emp_set_header"
+                android:layout_marginTop="8dp"
+                android:id="@+id/view01"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/emp_set_name_tv"
+                android:text="@string/emp_set_name_tv"
+                android:layout_marginTop="15dp"
+                android:textSize="16sp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/view01"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/emp_set_name_et"
+                android:singleLine="true"
+                android:hint="@string/emp_set_name_et"
+                android:textAlignment="center"
+                android:ems="7"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/view01"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/emp_set_password_tv"
+                android:text="@string/emp_set_password_tv"
+                android:layout_marginTop="15dp"
+                android:textSize="16sp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/emp_set_name_tv"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/emp_set_password_et"
+                android:inputType="textPassword"
+                android:hint="@string/emp_set_password_et"
+                android:textAlignment="center"
+                android:singleLine="true"
+                android:ems="7"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/emp_set_name_tv"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/emp_set_confirm_tv"
+                android:text="@string/emp_set_confirm_tv"
+                android:layout_marginTop="15dp"
+                android:textSize="16sp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/emp_set_password_tv"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/emp_set_confirm_et"
+                android:textAlignment="center"
+                android:singleLine="true"
+                android:inputType="textPassword"
+                android:hint="@string/emp_set_password_et"
+                android:ems="7"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/emp_set_password_tv"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/emp_set_email_tv"
+                android:text="@string/emp_set_email_tv"
+                android:layout_marginTop="15dp"
+                android:textSize="16sp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/emp_set_confirm_tv"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/emp_set_email_et"
+                android:inputType="textEmailAddress"
+                android:textAlignment="center"
+                android:hint="@string/emp_set_email_et"
+                android:singleLine="true"
+                android:ems="7"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/emp_set_confirm_tv"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/emp_set_truck_tv"
+                android:text="@string/emp_set_truck_tv"
+                android:layout_marginTop="15dp"
+                android:textSize="16sp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/emp_set_email_tv"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/emp_set_truck_et"
+                android:textAlignment="center"
+                android:hint="@string/emp_set_truck_et"
+                android:singleLine="true"
+                android:ems="7"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/emp_set_email_tv"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/emp_set_save_button"
+                android:layout_marginTop="30dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:text="@string/emp_set_save_button"
+                android:layout_below="@+id/emp_set_truck_tv"/>
+        </RelativeLayout>
+
+    </ScrollView>
+</LinearLayout>
