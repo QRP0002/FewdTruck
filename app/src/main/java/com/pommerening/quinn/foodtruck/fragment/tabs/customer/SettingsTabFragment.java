@@ -14,9 +14,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.pommerening.quinn.foodtruck.R;
-import com.pommerening.quinn.foodtruck.database.User;
 import com.pommerening.quinn.foodtruck.pojo.JSONParser;
-import com.pommerening.quinn.foodtruck.pojo.PasswordChecker;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -26,8 +24,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.realm.Realm;
-
 public class SettingsTabFragment extends Fragment {
     private String mUsername;
     private EditText mPasswordET;
@@ -36,15 +32,17 @@ public class SettingsTabFragment extends Fragment {
     private EditText mEmailET;
     private Spinner mRangeSpinner;
     private Button mSaveButton;
+    private String mValue;
 
     private static final String URL = "http://192.168.1.72/webservice/settingscustomer.php";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
 
-    public static SettingsTabFragment newInstance(String username) {
+    public static SettingsTabFragment newInstance(String username, String distance) {
         SettingsTabFragment f = new SettingsTabFragment();
         Bundle args = new Bundle();
         args.putString("username", username);
+        args.putString("distance", distance);
         f.setArguments(args);
         return f;
     }
@@ -53,7 +51,7 @@ public class SettingsTabFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUsername = getArguments().getString("username");
-
+        mValue = getArguments().getString("distance");
     }
 
     @Override
@@ -66,27 +64,35 @@ public class SettingsTabFragment extends Fragment {
                 R.array.range_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mRangeSpinner.setAdapter(adapter);
+        if (!mValue.equals("05")) {
+            int spinnerIndex = adapter.getPosition(mValue);
+            mRangeSpinner.setSelection(spinnerIndex);
+        }
 
         mNameET = (EditText) view.findViewById(R.id.settings_name_et);
-        mPasswordET= (EditText) view.findViewById(R.id.settings_password_et);
+        mPasswordET = (EditText) view.findViewById(R.id.settings_password_et);
         mConfirmET = (EditText) view.findViewById(R.id.settings_confirm_et);
         mEmailET = (EditText) view.findViewById(R.id.settings_email_et);
-
         mSaveButton = (Button) view.findViewById(R.id.settings_save_button);
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               final String nameSend = mNameET.getText().toString();
-               final String passwordSend = mPasswordET.getText().toString();
-               final String confirmSend = mConfirmET.getText().toString();
-               final String emailSend = mEmailET.getText().toString();
-               final String distanceSend = mRangeSpinner.getSelectedItem().toString();
+                final String nameSend = mNameET.getText().toString();
+                final String passwordSend = mPasswordET.getText().toString();
+                final String confirmSend = mConfirmET.getText().toString();
+                final String emailSend = mEmailET.getText().toString();
+                final String distanceSend = mRangeSpinner.getSelectedItem().toString();
 
                 new SaveInformation().execute(mUsername, nameSend, passwordSend, confirmSend,
                         emailSend, distanceSend);
             }
         });
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     public class SaveInformation extends AsyncTask<String, Void, String> {
@@ -110,7 +116,7 @@ public class SettingsTabFragment extends Fragment {
         @Override
         protected void onPostExecute(String url) {
             super.onPostExecute(url);
-            if (url != null){
+            if (url != null) {
                 Toast.makeText(getActivity(), url, Toast.LENGTH_LONG).show();
             }
         }
@@ -133,7 +139,7 @@ public class SettingsTabFragment extends Fragment {
                 success = json.getInt(TAG_SUCCESS);
                 Log.d("Success: ", json.getString(TAG_SUCCESS));
 
-                if(success == 1) {
+                if (success == 1) {
                     return json.getString(TAG_MESSAGE);
                 } else {
                     return json.getString(TAG_MESSAGE);

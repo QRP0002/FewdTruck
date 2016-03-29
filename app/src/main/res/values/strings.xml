@@ -54,11 +54,11 @@
     <string name="settings_preference_tv">Truck Search Range(Miles):</string>
     <string name="settings_save_button">Save</string>
     <string-array name="range_array">
-        <item>5</item>
-        <item>10</item>
-        <item>25</item>
-        <item>50</item>
-        <item>100</item>
+        <item>     05</item>
+        <item>     10</item>
+        <item>     25</item>
+        <item>     50</item>
+        <item>     100</item>
     </string-array>
 
 

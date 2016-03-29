@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
+        android:singleLine="true"
         android:gravity="center"
         android:hint="@string/register_dialog_username_hint"
         android:id="@+id/register_dialog_username"/>
@@ -23,6 +24,7 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:gravity="center"
+        android:singleLine="true"
         android:hint="@string/register_dialog_password_hint"
         android:id="@+id/register_dialog_password"/>
 
@@ -31,6 +33,7 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:inputType="textEmailAddress"
+        android:singleLine="true"
         android:gravity="center"
         android:hint="@string/register_dialog_email_hint"
         android:id="@+id/register_dialog_email"/>

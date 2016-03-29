@@ -135,10 +135,12 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/settings_range_spinner"
                 android:ems="5"
-                android:layout_below="@+id/settings_email_et"
                 android:textAlignment="center"
+                android:layout_alignTop="@+id/setting_preference_tv"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_alignLeft="@+id/settings_email_et"
-                android:layout_alignTop="@+id/setting_preference_tv"/>
+                android:layout_alignStart="@+id/settings_email_et" />
 
             <Button
                 android:layout_width="wrap_content"

@@ -15,13 +15,15 @@ import com.pommerening.quinn.foodtruck.pojo.CustomerPagerAdapter;
 
 public class CustomerHomeFragment extends Fragment implements MiniMapFragment.OnMapReadyListner {
     private String mUsername;
+    private String mDistance;
     private SupportMapFragment mMapFragment;
     private GoogleMap mMap;
 
-    public static CustomerHomeFragment newInstance(String username) {
+    public static CustomerHomeFragment newInstance(String username, String distance) {
         CustomerHomeFragment f = new CustomerHomeFragment();
         Bundle args = new Bundle();
         args.putString("username", username);
+        args.putString("distance", distance);
         f.setArguments(args);
         return f;
     }
@@ -30,6 +32,7 @@ public class CustomerHomeFragment extends Fragment implements MiniMapFragment.On
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUsername = getArguments().getString("username");
+        mDistance = getArguments().getString("distance");
     }
 
     @Override
@@ -46,7 +49,7 @@ public class CustomerHomeFragment extends Fragment implements MiniMapFragment.On
 
         final ViewPager viewPager = (ViewPager) view.findViewById(R.id.pager);
         final CustomerPagerAdapter cpa = new CustomerPagerAdapter
-                (getFragmentManager(), tabLayout.getTabCount(), mUsername);
+                (getFragmentManager(), tabLayout.getTabCount(), mUsername, mDistance);
         viewPager.setAdapter(cpa);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
