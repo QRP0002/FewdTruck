@@ -16,12 +16,15 @@ import com.pommerening.quinn.foodtruck.fragment.tabs.customer.SettingsTabFragmen
  */
 public class CustomerPagerAdapter extends FragmentStatePagerAdapter {
     int mTabNumbers;
-    private String mUsername;
+    private String username;
+    private String distance;
 
-    public CustomerPagerAdapter(FragmentManager fm, int NumberOfTabs, String username) {
+    public CustomerPagerAdapter(FragmentManager fm, int NumberOfTabs, String username,
+                                String distance) {
         super(fm);
         this.mTabNumbers = NumberOfTabs;
-        this.mUsername = username;
+        this.username = username;
+        this.distance = distance;
     }
 
     @Override
@@ -31,13 +34,13 @@ public class CustomerPagerAdapter extends FragmentStatePagerAdapter {
                 SupportMapFragment tabMap = MiniMapFragment.newInstance();
                 return tabMap;
             case 1:
-                ItemsTabFragment itemsTab = ItemsTabFragment.newInstance(mUsername);
+                ItemsTabFragment itemsTab = ItemsTabFragment.newInstance(username);
                 return itemsTab;
             case 2:
                 FavoritesTabFragment favTab = new FavoritesTabFragment();
                 return favTab;
             case 3:
-                SettingsTabFragment setTab = SettingsTabFragment.newInstance(mUsername);
+                SettingsTabFragment setTab = SettingsTabFragment.newInstance(username, distance);
                 return setTab;
             default:
                 return null;

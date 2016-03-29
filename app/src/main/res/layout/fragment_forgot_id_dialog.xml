@@ -17,6 +17,7 @@
         android:id="@+id/forgot_id_email_et"
         android:gravity="center"
         android:textAlignment="center"
+        android:singleLine="true"
         android:hint="@string/information_dialog_email_string"/>
 
     <LinearLayout

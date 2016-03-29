@@ -44,13 +44,13 @@ public class LoginHomeFragment extends Fragment implements MiniMapFragment.OnMap
     private SupportMapFragment mMapFragment;
     private GoogleMap mMap;
     private ProgressDialog pDialog;
-    private String usernameSend;
 
     JSONParser jp = new JSONParser();
     private static final String URL = "http://192.168.1.72:80/webservice/login.php";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
     private static final String TAG_USERNAME = "username";
+    private static final String TAG_DISTANCE = "distance";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -135,6 +135,8 @@ public class LoginHomeFragment extends Fragment implements MiniMapFragment.OnMap
                 params.add(new BasicNameValuePair("password", password));
                 Log.d("Request", "Starting");
                 JSONObject json = jp.makeHttpRequest(URL, "POST", params);
+                String usernameSend;
+                String distanceSend;
 
                 success = json.getInt(TAG_SUCCESS);
                 if (success == 1) {
@@ -149,7 +151,8 @@ public class LoginHomeFragment extends Fragment implements MiniMapFragment.OnMap
                 } else if(success == 2) {
                     Log.d("Login Successful!", json.toString());
                     usernameSend = json.getString(TAG_USERNAME);
-                    Fragment display = CustomerHomeFragment.newInstance(usernameSend);
+                    distanceSend = json.getString(TAG_DISTANCE);
+                    Fragment display = CustomerHomeFragment.newInstance(usernameSend, distanceSend);
                     getFragmentManager().beginTransaction()
                             .addToBackStack("fragment")
                             .replace(R.id.fragmentContainer, display)
