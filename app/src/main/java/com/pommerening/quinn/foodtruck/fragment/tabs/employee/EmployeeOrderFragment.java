@@ -9,16 +9,28 @@ import android.view.ViewGroup;
 import com.pommerening.quinn.foodtruck.R;
 
 public class EmployeeOrderFragment extends Fragment {
+    private String mUsername;
+
+    public static EmployeeOrderFragment newInstance(String username) {
+        EmployeeOrderFragment f = new EmployeeOrderFragment();
+        Bundle args = new Bundle();
+        args.putString("username", username);
+        f.setArguments(args);
+        return f;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mUsername = getArguments().getString("username");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_employee_order, container, false);
+        View view = inflater.inflate(R.layout.fragment_employee_order, container, false);
+
+        return view;
     }
 
 }
