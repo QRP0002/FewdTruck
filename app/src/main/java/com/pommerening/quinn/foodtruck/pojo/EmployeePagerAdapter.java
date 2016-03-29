@@ -27,13 +27,13 @@ public class EmployeePagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                EmployeeItemsFragment invTab = new EmployeeItemsFragment().newInstance(mUsername);
+                EmployeeItemsFragment invTab = EmployeeItemsFragment.newInstance(mUsername);
                 return invTab;
             case 1:
                 EmployeeOrderFragment orderTab = new EmployeeOrderFragment();
                 return orderTab;
             case 2:
-                EmployeeSettingsFragment setTab = new EmployeeSettingsFragment();
+                EmployeeSettingsFragment setTab = EmployeeSettingsFragment.newInstance(mUsername);
                 return setTab;
             case 3:
                 SupportMapFragment tabMap = MiniMapFragment.newInstance();
