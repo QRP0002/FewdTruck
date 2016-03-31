@@ -1,10 +1,7 @@
 package com.pommerening.quinn.foodtruck.fragment;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -19,7 +16,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.pommerening.quinn.foodtruck.R;
 import com.pommerening.quinn.foodtruck.pojo.GPSLocation;
 import com.pommerening.quinn.foodtruck.pojo.PermissionInterface;
 
@@ -29,6 +25,7 @@ public class MiniMapFragment extends SupportMapFragment{
     private static View view;
     private static final int REQUEST_CODE = 200;
     private PermissionInterface permission;
+    GPSLocation gps;
 
     public MiniMapFragment() {
         super();
@@ -41,6 +38,7 @@ public class MiniMapFragment extends SupportMapFragment{
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        gps = GPSLocation.locationSingleton(getActivity());
         super.onActivityCreated(savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
@@ -55,9 +53,8 @@ public class MiniMapFragment extends SupportMapFragment{
             }
 
         } else {
-            permission.changeSettings();
+            gps.changeSettings();
         }
-        GPSLocation gps = new GPSLocation(getActivity());
         if(gps.canGetLocation()) {
             map = getMap();
             LatLng test = new LatLng(gps.getLatitude(), gps.getLongitude());
@@ -90,7 +87,9 @@ public class MiniMapFragment extends SupportMapFragment{
 
     @Override
     public void onPause() {
-        permission.stopGPS();
+        super.onPause();
+        gps.stopGPS();
+        Log.d("This is onPause", "We stopped the gps");
     }
 
     public static interface OnMapReadyListener{
