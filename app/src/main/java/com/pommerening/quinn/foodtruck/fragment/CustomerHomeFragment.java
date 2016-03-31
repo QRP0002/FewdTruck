@@ -13,7 +13,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.pommerening.quinn.foodtruck.R;
 import com.pommerening.quinn.foodtruck.pojo.CustomerPagerAdapter;
 
-public class CustomerHomeFragment extends Fragment implements MiniMapFragment.OnMapReadyListner {
+public class CustomerHomeFragment extends Fragment implements MiniMapFragment.OnMapReadyListener {
     private String mUsername;
     private String mDistance;
     private SupportMapFragment mMapFragment;

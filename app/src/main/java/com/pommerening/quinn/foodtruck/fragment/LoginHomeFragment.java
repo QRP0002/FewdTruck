@@ -1,12 +1,17 @@
 package com.pommerening.quinn.foodtruck.fragment;
 
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +23,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.pommerening.quinn.foodtruck.Manifest;
 import com.pommerening.quinn.foodtruck.fragment.dialogs.ForgotIdDialog;
 import com.pommerening.quinn.foodtruck.fragment.dialogs.NewRegisterDialog;
 import com.pommerening.quinn.foodtruck.pojo.JSONParser;
@@ -32,7 +41,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LoginHomeFragment extends Fragment implements MiniMapFragment.OnMapReadyListner {
+public class LoginHomeFragment extends Fragment implements MiniMapFragment.OnMapReadyListener{
 
     private Button mLoginButton;
     private TextView mForgotInfo;
@@ -44,6 +53,7 @@ public class LoginHomeFragment extends Fragment implements MiniMapFragment.OnMap
     private SupportMapFragment mMapFragment;
     private GoogleMap mMap;
     private ProgressDialog pDialog;
+    static final LatLng TutorialsPoint = new LatLng(21 , 57);
 
     JSONParser jp = new JSONParser();
     private static final String URL = "http://192.168.1.72:80/webservice/login.php";
@@ -63,14 +73,14 @@ public class LoginHomeFragment extends Fragment implements MiniMapFragment.OnMap
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_login_home, container, false);
 
+        Log.d("This is mMap", "I am null");
         mMapFragment = MiniMapFragment.newInstance();
-        getChildFragmentManager().beginTransaction().replace(R.id.child_fragment, mMapFragment)
-                .commit();
+        getChildFragmentManager().beginTransaction().replace(R.id.child_fragment,
+                mMapFragment).commit();
         onMapReady();
 
         mUsername = (EditText) view.findViewById(R.id.login_name_id);
         mPassword = (EditText) view.findViewById(R.id.login_password_id);
-
         mLoginButton = (Button) view.findViewById(R.id.login_fragment_login_button);
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
