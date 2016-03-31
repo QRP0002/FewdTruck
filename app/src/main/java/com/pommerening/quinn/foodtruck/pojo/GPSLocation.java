@@ -2,8 +2,10 @@ package com.pommerening.quinn.foodtruck.pojo;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -38,8 +40,16 @@ public class GPSLocation extends Service implements LocationListener, Permission
     boolean isGPSEnabled = false;
     boolean canGetLocation = false;
     boolean isNetworkEnabled = false;
+    private static GPSLocation instance;
 
-    public GPSLocation(Context context) {
+    public static GPSLocation locationSingleton(Context context) {
+        if(instance == null) {
+            instance = new GPSLocation(context);
+        }
+        return instance;
+    }
+
+    private GPSLocation(Context context) {
         this.context = context;
         getLocation();
     }
@@ -116,15 +126,28 @@ public class GPSLocation extends Service implements LocationListener, Permission
         return this.canGetLocation;
     }
 
-    public void setCanGetLocation(boolean canGetLocation) {
-        this.canGetLocation = canGetLocation;
-    }
-
-
-
     @Override
     public void changeSettings() {
-        Log.d("I will change the", "settings in a dialog here");
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+
+        alertDialog.setTitle("GPS Settings");
+        alertDialog.setMessage("GPS is not enabled. Would you like to enable it?");
+        alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                context.startActivity(intent);
+            }
+        });
+
+        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        alertDialog.show();
     }
 
     @Override
