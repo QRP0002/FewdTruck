@@ -90,5 +90,6 @@
     <string name="emp_set_truck_et">Truck Name</string>
     <string name="emp_set_save_button">Save</string>
     <string name="emp_set_broadcast_tv">Broadcast Location:</string>
+    <string name="title_activity_splash">Splash</string>
 
 </resources>
