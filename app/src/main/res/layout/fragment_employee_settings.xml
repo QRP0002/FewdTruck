@@ -142,15 +142,35 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/emp_set_email_tv"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/emp_set_toggle_tv"
+                android:text="@string/emp_set_broadcast_tv"
+                android:layout_marginTop="15dp"
+                android:textSize="16sp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/emp_set_truck_tv"/>
+
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/emp_set_toggle_button"
+                android:layout_alignTop="@+id/emp_set_toggle_tv"
+                android:layout_alignLeft="@+id/emp_set_truck_et"
+                android:layout_alignStart="@+id/emp_set_truck_et"
+                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp" />
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/emp_set_save_button"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="45dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentRight="true"
                 android:text="@string/emp_set_save_button"
-                android:layout_below="@+id/emp_set_truck_tv"/>
+                android:layout_below="@+id/emp_set_toggle_tv"/>
         </RelativeLayout>
 
     </ScrollView>
