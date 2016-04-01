@@ -162,7 +162,7 @@ public class LoginHomeFragment extends Fragment implements MiniMapFragment.OnMap
                     Log.d("Login Successful!", json.toString());
                     usernameSend = json.getString(TAG_USERNAME);
                     distanceSend = json.getString(TAG_DISTANCE);
-                    LocationData.distance = Double.parseDouble(distanceSend);
+                    LocationData.setDistance(Double.parseDouble(distanceSend));
                     Fragment display = CustomerHomeFragment.newInstance(usernameSend, distanceSend);
                     getFragmentManager().beginTransaction()
                             .addToBackStack("fragment")

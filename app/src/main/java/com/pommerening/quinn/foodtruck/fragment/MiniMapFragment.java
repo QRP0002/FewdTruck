@@ -85,8 +85,7 @@ public class MiniMapFragment extends SupportMapFragment{
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("search Distance", " " + LocationData.distance);
-        if(toggle && LocationData.distance != 0) {
+        if(toggle && LocationData.getDistance() != 0) {
             map.clear();
             getInitialLocation();
         }
@@ -114,13 +113,14 @@ public class MiniMapFragment extends SupportMapFragment{
         }
     }
 
-    public void searchResult() {
+    private void searchResult() {
         double latitude = 0.0;
         double longitude = 0.0;
         String truckName= "";
-        double searchDistance = LocationData.distance;
+        double searchDistance = LocationData.getDistance();
+        ArrayList<String> nameData = new ArrayList<>();
 
-        ArrayList<HashMap<String, String>> values = LocationData.locationData;
+        ArrayList<HashMap<String, String>> values = LocationData.getLocationData();
         for (HashMap<String, String> hashMap : values) {
             for (Map.Entry<String, String> entry : hashMap.entrySet()) {
                 if(entry.getKey().equals(TAG_LATITUDE)) {
@@ -141,8 +141,13 @@ public class MiniMapFragment extends SupportMapFragment{
                 if(result <= searchDistance) {
                     LatLng test = new LatLng(latitude, longitude);
                     map.addMarker(new MarkerOptions().position(test).title(truckName));
+                    nameData.add(truckName);
                 }
             }
+        }
+
+        if(nameData.size() > 0) {
+            LocationData.setTruckNames(nameData);
         }
     }
 
@@ -152,7 +157,7 @@ public class MiniMapFragment extends SupportMapFragment{
             LatLng test = new LatLng(gps.getLatitude(), gps.getLongitude());
             map.addMarker(new MarkerOptions().position(test).title("You"));
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(test, 15));
-            map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+            map.animateCamera(CameraUpdateFactory.zoomTo(12), 2000, null);
             searchResult();
         }
     }

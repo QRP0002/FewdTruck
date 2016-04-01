@@ -50,9 +50,7 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            LocationData.locationData = mTruckList;
-            int temp = LocationData.locationData.size();
-            Log.d("locationdata size", String.valueOf(temp) );
+            LocationData.setLocationData(mTruckList);
             Intent i = new Intent(SplashActivity.this,
                     LoginActivity.class);
             startActivity(i);
