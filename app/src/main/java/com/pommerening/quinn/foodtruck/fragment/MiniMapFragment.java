@@ -17,8 +17,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.pommerening.quinn.foodtruck.pojo.GPSLocation;
+import com.pommerening.quinn.foodtruck.pojo.HaversineFormula;
 import com.pommerening.quinn.foodtruck.pojo.LocationData;
-import com.pommerening.quinn.foodtruck.pojo.PermissionInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,11 +29,10 @@ public class MiniMapFragment extends SupportMapFragment{
     private GoogleMap map;
     private static View view;
     private static final int REQUEST_CODE = 200;
-    private PermissionInterface permission;
-    GPSLocation gps;
-    private static final String TAG_TRUCK = "truck";
     private static final String TAG_LATITUDE = "latitude";
     private static final String TAG_LONGITUDE = "longitude";
+    GPSLocation gps;
+    private static boolean toggle = false;
 
     public MiniMapFragment() {
         super();
@@ -46,10 +45,11 @@ public class MiniMapFragment extends SupportMapFragment{
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        gps = GPSLocation.locationSingleton(getActivity());
         super.onActivityCreated(savedInstanceState);
+        gps = GPSLocation.locationSingleton(getActivity());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+            if (ActivityCompat.checkSelfPermission(getActivity(),
+                    Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED &&
                     ActivityCompat.checkSelfPermission(getActivity(),
                             Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -59,29 +59,15 @@ public class MiniMapFragment extends SupportMapFragment{
                         Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE);
                 return;
             }
-
         } else {
             gps.changeSettings();
         }
-
-        if(gps.canGetLocation()) {
-
-            map = getMap();
-            LatLng test = new LatLng(gps.getLatitude(), gps.getLongitude());
-            map.addMarker(new MarkerOptions().position(test).title("You"));
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(test, 15));
-            map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
-            loadTrucks();
-        } else {
-            Log.d("Fuck this shit", "Location not true");
-        }
-
+        getInitialLocation();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -97,13 +83,23 @@ public class MiniMapFragment extends SupportMapFragment{
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("search Distance", " " + LocationData.distance);
+        if(toggle && LocationData.distance != 0) {
+            map.clear();
+            getInitialLocation();
+        }
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         gps.stopGPS();
-        Log.d("This is onPause", "We stopped the gps");
+        toggle = true;
     }
 
-    public static interface OnMapReadyListener{
+    public interface OnMapReadyListener{
         void onMapReady();
     }
 
@@ -118,15 +114,15 @@ public class MiniMapFragment extends SupportMapFragment{
         }
     }
 
-    public void loadTrucks() {
+    public void searchResult() {
         double latitude = 0.0;
         double longitude = 0.0;
         String truckName= "";
+        double searchDistance = LocationData.distance;
 
         ArrayList<HashMap<String, String>> values = LocationData.locationData;
         for (HashMap<String, String> hashMap : values) {
             for (Map.Entry<String, String> entry : hashMap.entrySet()) {
-                Log.d("Hello World", entry.getKey() + " => " + entry.getValue());
                 if(entry.getKey().equals(TAG_LATITUDE)) {
                     latitude = Double.parseDouble(entry.getValue());
                 } else if(entry.getKey().equals(TAG_LONGITUDE)) {
@@ -135,8 +131,29 @@ public class MiniMapFragment extends SupportMapFragment{
                     truckName = entry.getValue();
                 }
             }
-            LatLng test = new LatLng(latitude, longitude);
-            map.addMarker(new MarkerOptions().position(test).title(truckName));
+
+            if(searchDistance == 0.0) {
+                LatLng test = new LatLng(latitude, longitude);
+                map.addMarker(new MarkerOptions().position(test).title(truckName));
+            } else {
+                double result = HaversineFormula.distFrom(gps.getLatitude(), gps.getLongitude(),
+                        latitude, longitude);
+                if(result <= searchDistance) {
+                    LatLng test = new LatLng(latitude, longitude);
+                    map.addMarker(new MarkerOptions().position(test).title(truckName));
+                }
+            }
+        }
+    }
+
+    private void getInitialLocation() {
+        if(gps.canGetLocation()) {
+            map = getMap();
+            LatLng test = new LatLng(gps.getLatitude(), gps.getLongitude());
+            map.addMarker(new MarkerOptions().position(test).title("You"));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(test, 15));
+            map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+            searchResult();
         }
     }
 }

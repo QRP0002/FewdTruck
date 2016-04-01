@@ -31,6 +31,7 @@ import com.pommerening.quinn.foodtruck.fragment.dialogs.ForgotIdDialog;
 import com.pommerening.quinn.foodtruck.fragment.dialogs.NewRegisterDialog;
 import com.pommerening.quinn.foodtruck.pojo.JSONParser;
 import com.pommerening.quinn.foodtruck.R;
+import com.pommerening.quinn.foodtruck.pojo.LocationData;
 import com.pommerening.quinn.foodtruck.pojo.TimeOfDay;
 
 import org.apache.http.NameValuePair;
@@ -147,7 +148,6 @@ public class LoginHomeFragment extends Fragment implements MiniMapFragment.OnMap
                 JSONObject json = jp.makeHttpRequest(URL, "POST", params);
                 String usernameSend;
                 String distanceSend;
-
                 success = json.getInt(TAG_SUCCESS);
                 if (success == 1) {
                     Log.d("Login Successful!", json.toString());
@@ -162,6 +162,7 @@ public class LoginHomeFragment extends Fragment implements MiniMapFragment.OnMap
                     Log.d("Login Successful!", json.toString());
                     usernameSend = json.getString(TAG_USERNAME);
                     distanceSend = json.getString(TAG_DISTANCE);
+                    LocationData.distance = Double.parseDouble(distanceSend);
                     Fragment display = CustomerHomeFragment.newInstance(usernameSend, distanceSend);
                     getFragmentManager().beginTransaction()
                             .addToBackStack("fragment")

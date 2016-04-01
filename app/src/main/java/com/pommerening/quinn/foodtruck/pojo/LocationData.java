@@ -8,4 +8,5 @@ import java.util.HashMap;
  */
 public class LocationData {
     public static ArrayList<HashMap<String, String>> locationData;
+    public static double distance = 0;
 }
