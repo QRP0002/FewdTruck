@@ -49,7 +49,7 @@ public class AddFavoriteDialog extends DialogFragment {
     private static final String TAG_MESSAGE = "message";
 
     public static AddFavoriteDialog newInstance(String username, String productID,
-                                                String productPrice, String productName,
+                                                String productName, String productPrice ,
                                                 String truckName) {
         AddFavoriteDialog fragment = new AddFavoriteDialog();
         Bundle args = new Bundle();

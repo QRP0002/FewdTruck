@@ -42,6 +42,7 @@ public class ItemsTabFragment extends Fragment {
     private static final String TAG_TRUCKNAME = "truckname";
     private static final String TAG_PRODID = "prodid";
 
+    private boolean isViewShown = false;
     private JSONArray mInventory = null;
     private ArrayList<HashMap<String, String>> mInventoryList;
 
@@ -57,6 +58,17 @@ public class ItemsTabFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUSername = getArguments().getString("username");
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (getView() != null) {
+            isViewShown = true;
+            new CustomerInventory().execute();
+        } else {
+            isViewShown = false;
+        }
     }
 
     @Override
