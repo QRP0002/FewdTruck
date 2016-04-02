@@ -37,7 +37,7 @@ public class CustomerPagerAdapter extends FragmentStatePagerAdapter {
                 ItemsTabFragment itemsTab = ItemsTabFragment.newInstance(username);
                 return itemsTab;
             case 2:
-                FavoritesTabFragment favTab = new FavoritesTabFragment();
+                FavoritesTabFragment favTab = FavoritesTabFragment.newInstance(username);
                 return favTab;
             case 3:
                 SettingsTabFragment setTab = SettingsTabFragment.newInstance(username, distance);

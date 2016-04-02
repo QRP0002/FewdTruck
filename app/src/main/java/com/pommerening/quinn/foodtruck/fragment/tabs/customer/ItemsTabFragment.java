@@ -3,6 +3,7 @@ package com.pommerening.quinn.foodtruck.fragment.tabs.customer;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,7 +15,10 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.pommerening.quinn.foodtruck.R;
+import com.pommerening.quinn.foodtruck.fragment.dialogs.AddFavoriteDialog;
+import com.pommerening.quinn.foodtruck.fragment.dialogs.EditInventoryDialog;
 import com.pommerening.quinn.foodtruck.pojo.JSONParser;
+import com.pommerening.quinn.foodtruck.pojo.LocationData;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -35,8 +39,10 @@ public class ItemsTabFragment extends Fragment {
     private static final String TAG_PRODNAME = "prodname";
     private static final String TAG_PRODPRICE = "prodprice";
     private static final String TAG_POSTS = "posts";
+    private static final String TAG_TRUCKNAME = "truckname";
+    private static final String TAG_PRODID = "prodid";
 
-
+    private boolean isViewShown = false;
     private JSONArray mInventory = null;
     private ArrayList<HashMap<String, String>> mInventoryList;
 
@@ -52,6 +58,17 @@ public class ItemsTabFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUSername = getArguments().getString("username");
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (getView() != null) {
+            isViewShown = true;
+            new CustomerInventory().execute();
+        } else {
+            isViewShown = false;
+        }
     }
 
     @Override
@@ -94,33 +111,48 @@ public class ItemsTabFragment extends Fragment {
 
         public void getJSONData() {
             mInventoryList = new ArrayList<HashMap<String, String>>();
-            JSONParser jParser = new JSONParser();
+            ArrayList<String> truckNamesArray = LocationData.getTruckNames();
+            for(String temp : truckNamesArray) {
+                int success;
+                try {
+                    List<NameValuePair> params = new ArrayList<>();
+                    params.add(new BasicNameValuePair("truckname", temp));
+                    JSONParser jParser = new JSONParser();
+                    Log.d("Request", "Starting");
+                    JSONObject json = jParser.makeHttpRequest(URL, "POST", params);
+                    mInventory = json.getJSONArray(TAG_POSTS);
 
-            try {
-                Log.d("Request", "Starting");
-                JSONObject json = jParser.getJSONFromUrl(URL);
-                mInventory = json.getJSONArray(TAG_POSTS);
+                    success = json.getInt(TAG_SUCCESS);
+                    if(success == 1) {
 
-                for (int i = 0; i < mInventory.length(); i++) {
-                    JSONObject c = mInventory.getJSONObject(i);
+                        for (int i = 0; i < mInventory.length(); i++) {
+                            JSONObject c = mInventory.getJSONObject(i);
 
-                    String prodName = c.getString(TAG_PRODNAME);
-                    String prodPrice = c.getString(TAG_PRODPRICE);
+                            String prodName = c.getString(TAG_PRODNAME);
+                            String prodPrice = c.getString(TAG_PRODPRICE);
+                            String prodID = c.getString(TAG_PRODID);
+                            String truckName = c.getString(TAG_TRUCKNAME);
 
-                    HashMap<String, String> map = new HashMap<String, String>();
-                    map.put(TAG_PRODNAME, prodName);
-                    map.put(TAG_PRODPRICE, prodPrice);
-                    mInventoryList.add(map);
+                            HashMap<String, String> map = new HashMap<String, String>();
+                            map.put(TAG_PRODNAME, prodName);
+                            map.put(TAG_PRODPRICE, prodPrice);
+                            map.put(TAG_PRODID, prodID);
+                            map.put(TAG_TRUCKNAME, truckName);
+                            mInventoryList.add(map);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
         }
 
         public void setJSONData() {
-            ListAdapter adapter = new SimpleAdapter(getActivity(), mInventoryList,
-                    R.layout.cust_list_view, new String[] {TAG_PRODNAME, TAG_PRODPRICE},
-                    new int[] {R.id.cust_prod_name, R.id.cust_prod_price});
+            final ListAdapter adapter = new SimpleAdapter(getActivity(), mInventoryList,
+                    R.layout.cust_list_view, new String[] {TAG_TRUCKNAME,
+                    TAG_PRODNAME, TAG_PRODPRICE},
+                    new int[] {R.id.cust_truck_name,
+                            R.id.cust_prod_name, R.id.cust_prod_price});
 
             lv.setAdapter(adapter);
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -128,6 +160,17 @@ public class ItemsTabFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view,
                                         int position, long id) {
+                    long arrayPosition = adapter.getItemId(position);
+                    String prodNameSend = mInventoryList.get((int)arrayPosition).get(TAG_PRODNAME);
+                    String prodPriceSend = mInventoryList.get((int)arrayPosition).get(TAG_PRODPRICE);
+                    String truckNameSend = mInventoryList.get((int)arrayPosition).get(TAG_TRUCKNAME);
+                    String productIDSend = mInventoryList.get((int)arrayPosition).get(TAG_PRODID);
+
+                    DialogFragment newFragment = AddFavoriteDialog.newInstance(mUSername,
+                            productIDSend, prodNameSend, prodPriceSend, truckNameSend);
+
+                    newFragment.setTargetFragment(ItemsTabFragment.this, 1);
+                    newFragment.show(getActivity().getSupportFragmentManager(), "favorite dialog");
                 }
             });
         }
