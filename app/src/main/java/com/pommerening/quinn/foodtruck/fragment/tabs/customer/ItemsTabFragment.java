@@ -3,6 +3,7 @@ package com.pommerening.quinn.foodtruck.fragment.tabs.customer;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.pommerening.quinn.foodtruck.R;
+import com.pommerening.quinn.foodtruck.fragment.dialogs.AddFavoriteDialog;
+import com.pommerening.quinn.foodtruck.fragment.dialogs.EditInventoryDialog;
 import com.pommerening.quinn.foodtruck.pojo.JSONParser;
 import com.pommerening.quinn.foodtruck.pojo.LocationData;
 
@@ -133,7 +136,7 @@ public class ItemsTabFragment extends Fragment {
         }
 
         public void setJSONData() {
-            ListAdapter adapter = new SimpleAdapter(getActivity(), mInventoryList,
+            final ListAdapter adapter = new SimpleAdapter(getActivity(), mInventoryList,
                     R.layout.cust_list_view, new String[] {TAG_TRUCKNAME,
                     TAG_PRODNAME, TAG_PRODPRICE},
                     new int[] {R.id.cust_truck_name,
@@ -145,6 +148,17 @@ public class ItemsTabFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view,
                                         int position, long id) {
+                    long arrayPosition = adapter.getItemId(position);
+                    String prodNameSend = mInventoryList.get((int)arrayPosition).get(TAG_PRODNAME);
+                    String prodPriceSend = mInventoryList.get((int)arrayPosition).get(TAG_PRODPRICE);
+                    String truckNameSend = mInventoryList.get((int)arrayPosition).get(TAG_TRUCKNAME);
+                    String productIDSend = mInventoryList.get((int)arrayPosition).get(TAG_PRODID);
+
+                    DialogFragment newFragment = AddFavoriteDialog.newInstance(mUSername,
+                            productIDSend, prodNameSend, prodPriceSend, truckNameSend);
+
+                    newFragment.setTargetFragment(ItemsTabFragment.this, 1);
+                    newFragment.show(getActivity().getSupportFragmentManager(), "favorite dialog");
                 }
             });
         }

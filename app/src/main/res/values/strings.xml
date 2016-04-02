@@ -92,4 +92,12 @@
     <string name="emp_set_broadcast_tv">Broadcast Location:</string>
     <string name="title_activity_splash">Splash</string>
 
+    <!-- Customer Favorites-->
+    <string name="favorites_cancel_button">Cancel</string>
+    <string name="favorites_order_button">Order Item</string>
+    <string name="favorites_add_button">Favorite</string>
+
+    <!-- Edit Favorites Dialog -->
+    <string name="edit_fav_remove_str">Remove</string>
+
 </resources>
