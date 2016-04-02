@@ -21,6 +21,7 @@ import com.pommerening.quinn.foodtruck.fragment.dialogs.EditFavoritesDialogFragm
 import com.pommerening.quinn.foodtruck.fragment.dialogs.EditInventoryDialog;
 import com.pommerening.quinn.foodtruck.pojo.JSONParser;
 import com.pommerening.quinn.foodtruck.pojo.LocationData;
+import com.pommerening.quinn.foodtruck.pojo.RefreshScreenInterface;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -32,7 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class FavoritesTabFragment extends Fragment {
+public class FavoritesTabFragment extends Fragment implements RefreshScreenInterface{
     private String mUsername;
     private static final String URL = "http://192.168.1.72:80/webservice/loadfavorites.php";
     private static final String TAG_SUCCESS = "success";
@@ -42,7 +43,7 @@ public class FavoritesTabFragment extends Fragment {
     private static final String TAG_PRODID = "prodid";
     private static final String TAG_TRUCKNAME = "truckname";
     private ProgressDialog pDialog;
-
+    private boolean isViewShown = false;
     private ListView lv;
 
     private JSONArray mInventory = null;
@@ -65,6 +66,17 @@ public class FavoritesTabFragment extends Fragment {
     }
 
     @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (getView() != null) {
+            isViewShown = true;
+            new LoadFavorites().execute(mUsername);
+        } else {
+            isViewShown = false;
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favorites_tab, container, false);
@@ -76,6 +88,12 @@ public class FavoritesTabFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        Log.d("Favorites Tab onResume", "I have been called");
+        new LoadFavorites().execute(mUsername);
+    }
+
+    @Override
+    public void refreshScreen() {
         new LoadFavorites().execute(mUsername);
     }
 
@@ -164,7 +182,7 @@ public class FavoritesTabFragment extends Fragment {
                             productIDSend, prodNameSend, prodPriceSend, truckNameSend);
 
                     newFragment.setTargetFragment(FavoritesTabFragment.this, 1);
-                    newFragment.show(getActivity().getSupportFragmentManager(), "favorite dialog");
+                    newFragment.show(getActivity().getSupportFragmentManager(), "Edit fav dialog");
                 }
             });
         }
