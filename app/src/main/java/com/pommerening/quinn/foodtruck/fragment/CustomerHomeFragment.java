@@ -43,14 +43,16 @@ public class CustomerHomeFragment extends Fragment implements MiniMapFragment.On
 
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Map"));
-        tabLayout.addTab(tabLayout.newTab().setText("Items"));
-        tabLayout.addTab(tabLayout.newTab().setText("Favorites"));
-        tabLayout.addTab(tabLayout.newTab().setText("Settings"));
+        tabLayout.addTab(tabLayout.newTab().setText("Menu"));
+        tabLayout.addTab(tabLayout.newTab().setText("Fav"));
+        tabLayout.addTab(tabLayout.newTab().setText("Set"));
+        tabLayout.addTab(tabLayout.newTab().setText("Cart"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) view.findViewById(R.id.pager);
         final CustomerPagerAdapter cpa = new CustomerPagerAdapter
-                (getFragmentManager(), tabLayout.getTabCount(), mUsername, mDistance);
+                (getFragmentManager(), tabLayout.getTabCount(), mUsername, mDistance,
+                        getActivity());
         viewPager.setAdapter(cpa);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
