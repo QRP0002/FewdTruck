@@ -106,4 +106,8 @@
     <string name="cart_order_button">Place Order</string>
     <string name="cart_empty_toast">Cart is empty</string>
 
+    <!-- Employee Orders-->
+    <string name="orders_cooked_button">Cooked</string>
+    <string name="orderes_remove_button">Remove</string>
+
 </resources>
