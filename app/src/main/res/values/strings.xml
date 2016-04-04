@@ -103,5 +103,7 @@
 
     <!-- Cart Fragment -->
     <string name="cart_remove_button">Remove Item</string>
+    <string name="cart_order_button">Place Order</string>
+    <string name="cart_empty_toast">Cart is empty</string>
 
 </resources>
