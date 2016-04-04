@@ -10,6 +10,7 @@ public class LocationData {
     private static ArrayList<HashMap<String, String>> locationData;
     private static double distance = 0;
     private static ArrayList<String> truckNames;
+    private static ArrayList<HashMap<String, String>> ticketOrder;
 
     public static ArrayList<HashMap<String, String>> getLocationData() {
         return locationData;
@@ -33,5 +34,13 @@ public class LocationData {
 
     public static void setTruckNames(ArrayList<String> truckNames) {
         LocationData.truckNames = truckNames;
+    }
+
+    public static ArrayList<HashMap<String, String>> getTicketOrder() {
+        return ticketOrder;
+    }
+
+    public static void setTicketOrder(ArrayList<HashMap<String, String>> ticketOrder) {
+        LocationData.ticketOrder = ticketOrder;
     }
 }

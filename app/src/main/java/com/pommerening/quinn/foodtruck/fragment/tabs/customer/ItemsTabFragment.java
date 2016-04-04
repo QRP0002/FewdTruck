@@ -161,10 +161,14 @@ public class ItemsTabFragment extends Fragment {
                 public void onItemClick(AdapterView<?> parent, View view,
                                         int position, long id) {
                     long arrayPosition = adapter.getItemId(position);
-                    String prodNameSend = mInventoryList.get((int)arrayPosition).get(TAG_PRODNAME);
-                    String prodPriceSend = mInventoryList.get((int)arrayPosition).get(TAG_PRODPRICE);
-                    String truckNameSend = mInventoryList.get((int)arrayPosition).get(TAG_TRUCKNAME);
-                    String productIDSend = mInventoryList.get((int)arrayPosition).get(TAG_PRODID);
+                    String prodNameSend = mInventoryList.get((int)arrayPosition)
+                            .get(TAG_PRODNAME);
+                    String prodPriceSend = mInventoryList.get((int)arrayPosition)
+                            .get(TAG_PRODPRICE);
+                    String truckNameSend = mInventoryList.get((int)arrayPosition)
+                            .get(TAG_TRUCKNAME);
+                    String productIDSend = mInventoryList.get((int)arrayPosition)
+                            .get(TAG_PRODID);
 
                     DialogFragment newFragment = AddFavoriteDialog.newInstance(mUSername,
                             productIDSend, prodNameSend, prodPriceSend, truckNameSend);

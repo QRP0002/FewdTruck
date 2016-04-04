@@ -2,6 +2,7 @@
     <string name="app_name">Fewd Truck</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_single_fragment">SingleFragmentActivity</string>
+    <string name="title_activity_splash">Fewd Truck</string>
     <string name="title_activity_login">Fewd Truck</string>
 
     <!-- LoginHomeFragment Strings -->
@@ -90,7 +91,7 @@
     <string name="emp_set_truck_et">Truck Name</string>
     <string name="emp_set_save_button">Save</string>
     <string name="emp_set_broadcast_tv">Broadcast Location:</string>
-    <string name="title_activity_splash">Splash</string>
+
 
     <!-- Customer Favorites-->
     <string name="favorites_cancel_button">Cancel</string>
@@ -99,5 +100,8 @@
 
     <!-- Edit Favorites Dialog -->
     <string name="edit_fav_remove_str">Remove</string>
+
+    <!-- Cart Fragment -->
+    <string name="cart_remove_button">Remove Item</string>
 
 </resources>

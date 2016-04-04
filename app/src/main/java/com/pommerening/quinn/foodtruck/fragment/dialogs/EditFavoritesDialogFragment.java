@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.pommerening.quinn.foodtruck.R;
 import com.pommerening.quinn.foodtruck.pojo.JSONParser;
+import com.pommerening.quinn.foodtruck.pojo.LocationData;
 import com.pommerening.quinn.foodtruck.pojo.RefreshScreenInterface;
 
 import org.apache.http.NameValuePair;
@@ -28,6 +29,7 @@ import org.json.JSONObject;
 
 import java.security.PrivateKey;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class EditFavoritesDialogFragment extends DialogFragment {
@@ -50,6 +52,11 @@ public class EditFavoritesDialogFragment extends DialogFragment {
     private static final String URL = "http://192.168.1.72:80/webservice/removefav.php";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
+    private static final String TAG_PRODUCTID = "_ProductID";
+    private static final String TAG_TRUCKNAME = "_TruckName";
+    private static final String TAG_USERNAME = "_Username";
+    private static final String TAG_PRODUCTPRICE = "_ProductPrice";
+    private static final String TAG_PRDUCTNAME = "_PRODUCTNAME";
 
     public static EditFavoritesDialogFragment newInstance(String username, String productID,
                                                           String productName, String productPrice,
@@ -120,7 +127,25 @@ public class EditFavoritesDialogFragment extends DialogFragment {
         mOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(v.getId() == R.id.edit_fav_order_button) {
+                    ArrayList<HashMap<String, String>> orderAdd = LocationData.getTicketOrder();
+                    if(orderAdd == null) {
+                        orderAdd = new ArrayList<>();
+                    }
 
+                    HashMap<String, String> map = new HashMap<String, String>();
+                    map.put(TAG_USERNAME, mUsername);
+                    map.put(TAG_PRODUCTPRICE, mProductPrice);
+                    map.put(TAG_PRDUCTNAME, mProductName);
+                    map.put(TAG_PRODUCTID, mProductID);
+                    map.put(TAG_TRUCKNAME, mTruckName);
+                    orderAdd.add(map);
+                    LocationData.setTicketOrder(orderAdd);
+
+                    ArrayList<HashMap<String, String>> test = LocationData.getTicketOrder();
+                    Log.d("ticket order size", " " + test.size());
+                    mDialog.dismiss();
+                }
             }
         });
 
