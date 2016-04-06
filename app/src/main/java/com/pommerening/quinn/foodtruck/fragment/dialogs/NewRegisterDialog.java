@@ -2,8 +2,10 @@ package com.pommerening.quinn.foodtruck.fragment.dialogs;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,12 +38,15 @@ public class NewRegisterDialog extends DialogFragment {
     private static final String URL = "http://192.168.1.72/webservice/register.php";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
+    private TextInputLayout usernameLayer, passwordLayer, emailLayer;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         dialog = new Dialog(getActivity());
         dialog.setCanceledOnTouchOutside(false);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow()
+                .setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setTitle(R.string.register_dialog_info_header);
         dialog.setContentView(R.layout.fragment_new_register_dialog);
         return dialog;
     }
@@ -50,6 +55,10 @@ public class NewRegisterDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_new_register_dialog, container, false);
+
+        usernameLayer = (TextInputLayout) view.findViewById(R.id.register_username_layout);
+        passwordLayer = (TextInputLayout) view.findViewById(R.id.register_password_layout);
+        emailLayer = (TextInputLayout) view.findViewById(R.id.register_email_layout);
 
         mSendButton = (Button) view.findViewById(R.id.register_dialog_send_button);
         mSendButton.setOnClickListener(new View.OnClickListener() {

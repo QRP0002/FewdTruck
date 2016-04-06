@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.pommerening.quinn.foodtruck.pojo.GPSLocation;
@@ -76,9 +77,7 @@ public class MiniMapFragment extends SupportMapFragment{
     @Override
     public void onPause() {
         super.onPause();
-        if(gps != null) {
-            gps.stopGPS();
-        }
+        gps.stopGPS();
         toggle = true;
     }
 
@@ -94,6 +93,7 @@ public class MiniMapFragment extends SupportMapFragment{
         ArrayList<String> nameData = new ArrayList<>();
 
         ArrayList<HashMap<String, String>> values = LocationData.getLocationData();
+
         for (HashMap<String, String> hashMap : values) {
             for (Map.Entry<String, String> entry : hashMap.entrySet()) {
                 if(entry.getKey().equals(TAG_LATITUDE)) {
@@ -132,7 +132,12 @@ public class MiniMapFragment extends SupportMapFragment{
             map = getMap();
             map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
             LatLng test = new LatLng(gps.getLatitude(), gps.getLongitude());
-            map.addMarker(new MarkerOptions().position(test).title("You"));
+            map.addMarker(new MarkerOptions()
+                    .position(test)
+                    .title("You")
+                    .icon(BitmapDescriptorFactory.defaultMarker(
+                            BitmapDescriptorFactory.HUE_BLUE
+                    )));
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(test, 15));
             map.animateCamera(CameraUpdateFactory.zoomTo(12), 2000, null);
             searchResult();

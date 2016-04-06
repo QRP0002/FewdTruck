@@ -13,10 +13,13 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -83,9 +86,9 @@ public class LoginHomeFragment extends Fragment implements MiniMapFragment.OnMap
 
         inputLayoutName = (TextInputLayout) view.findViewById(R.id.input_layout_name);
         getInputLayoutPassword = (TextInputLayout) view.findViewById(R.id.input_layout_password);
-
         mUsername = (EditText) view.findViewById(R.id.login_name_id);
         mPassword = (EditText) view.findViewById(R.id.login_password_id);
+
         mLoginButton = (Button) view.findViewById(R.id.login_fragment_login_button);
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -118,6 +121,18 @@ public class LoginHomeFragment extends Fragment implements MiniMapFragment.OnMap
         String TOD = timeOfDay.getTimeOfDay();
         mTimeOfDay.setText(TOD);
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mUsername.getText().clear();
+        mPassword.getText().clear();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -182,7 +197,6 @@ public class LoginHomeFragment extends Fragment implements MiniMapFragment.OnMap
         }
 
         protected void onPostExecute(String file_url) {
-            // dismiss the dialog once product deleted
             pDialog.dismiss();
             if (file_url != null){
                 Toast.makeText(getActivity(), file_url, Toast.LENGTH_LONG).show();
