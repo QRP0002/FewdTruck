@@ -1,11 +1,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
     android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:textColor="@color/textColorPrimary"
         android:layout_weight="1"
         android:id="@+id/time_of_day"
         android:gravity="center" />
@@ -25,7 +27,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="@android:color/black"/>
+        android:background="@android:color/black"
+        android:id="@+id/view001"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,29 +37,49 @@
         android:layout_weight="2"
         android:gravity="center_vertical|center_horizontal">
 
-        <EditText
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/login_name_id"
-            android:textAlignment="center"
-            android:singleLine="true"
-            android:hint="@string/login_name_string" />
+            android:layout_height="wrap_content">
 
-        <EditText
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/login_name_id"
+                android:textAlignment="center"
+                android:ems="12"
+                android:singleLine="true"
+                android:hint="@string/login_name_string" />
+
+
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_password"
             android:layout_width="wrap_content"
-            android:inputType="textPassword"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:singleLine="true"
-            android:id="@+id/login_password_id"
-            android:hint="@string/login_password_string"/>
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:inputType="textPassword"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:singleLine="true"
+                android:ems="12"
+                android:id="@+id/login_password_id"
+                android:hint="@string/login_password_string"/>
+
+        </android.support.design.widget.TextInputLayout>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
             android:id="@+id/login_fragment_login_button"
             android:text="@string/login_button_string"
-            />
+            android:background="@drawable/button_shape"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -69,18 +92,24 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:textColor="@color/textColorPrimary"
             android:id="@+id/login_forgot_password"
+            android:background="@android:color/transparent"
+            android:textSize="14sp"
             android:layout_weight="1"
-            android:gravity="center"
             android:clickable="true"
+            android:gravity="center"
             android:text="@string/login_forgot_string"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/login_new_user"
-            android:layout_weight="1"
+            android:background="@android:color/transparent"
             android:clickable="true"
+            android:textColor="@color/textColorPrimary"
+            android:layout_weight="1"
+            android:textSize="14sp"
             android:gravity="center"
             android:text="@string/login_new_user_string"/>
 
