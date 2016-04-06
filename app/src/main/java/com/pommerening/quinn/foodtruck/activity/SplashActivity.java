@@ -1,12 +1,20 @@
 package com.pommerening.quinn.foodtruck.activity;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.pommerening.quinn.foodtruck.R;
+import com.pommerening.quinn.foodtruck.fragment.MiniMapFragment;
+import com.pommerening.quinn.foodtruck.pojo.GPSLocation;
 import com.pommerening.quinn.foodtruck.pojo.JSONParser;
 import com.pommerening.quinn.foodtruck.pojo.LocationData;
 
@@ -24,6 +32,8 @@ public class SplashActivity extends AppCompatActivity {
     private static final String TAG_LATITUDE = "latitude";
     private static final String TAG_LONGITUDE = "longitude";
 
+    private static final int REQUEST_CODE = 200;
+
     private JSONArray mTruck = null;
     private ArrayList<HashMap<String, String>> mTruckList;
 
@@ -32,6 +42,26 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_splash);
         new SplashBackground().execute();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{
+                        Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
+                return;
+            }
+        }
+        GPSLocation gps = GPSLocation.locationSingleton(this);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+        }
     }
 
     @Override
@@ -43,7 +73,13 @@ public class SplashActivity extends AppCompatActivity {
     private class SplashBackground extends AsyncTask<String, Void, Void> {
         @Override
         protected Void doInBackground(String... params) {
+            final int SPLASH_SHOW_TIME = 5000;
             runJSON();
+            try {
+                Thread.sleep(SPLASH_SHOW_TIME);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             return null;
         }
 

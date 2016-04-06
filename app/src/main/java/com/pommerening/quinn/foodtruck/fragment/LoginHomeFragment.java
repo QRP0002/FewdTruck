@@ -8,6 +8,7 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -54,7 +55,7 @@ public class LoginHomeFragment extends Fragment implements MiniMapFragment.OnMap
     private SupportMapFragment mMapFragment;
     private GoogleMap mMap;
     private ProgressDialog pDialog;
-    static final LatLng TutorialsPoint = new LatLng(21 , 57);
+    private TextInputLayout inputLayoutName, getInputLayoutPassword;
 
     JSONParser jp = new JSONParser();
     private static final String URL = "http://192.168.1.72:80/webservice/login.php";
@@ -80,6 +81,9 @@ public class LoginHomeFragment extends Fragment implements MiniMapFragment.OnMap
                 mMapFragment).commit();
         onMapReady();
 
+        inputLayoutName = (TextInputLayout) view.findViewById(R.id.input_layout_name);
+        getInputLayoutPassword = (TextInputLayout) view.findViewById(R.id.input_layout_password);
+
         mUsername = (EditText) view.findViewById(R.id.login_name_id);
         mPassword = (EditText) view.findViewById(R.id.login_password_id);
         mLoginButton = (Button) view.findViewById(R.id.login_fragment_login_button);
@@ -93,7 +97,6 @@ public class LoginHomeFragment extends Fragment implements MiniMapFragment.OnMap
         });
 
         mForgotInfo = (TextView) view.findViewById(R.id.login_forgot_password);
-        mForgotInfo.setTextColor(Color.parseColor("#0000FF"));
         mForgotInfo.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 DialogFragment newFragment = new ForgotIdDialog();
@@ -102,7 +105,6 @@ public class LoginHomeFragment extends Fragment implements MiniMapFragment.OnMap
         });
 
         mNewUser = (TextView) view.findViewById(R.id.login_new_user);
-        mNewUser.setTextColor(Color.parseColor("#0000FF"));
         mNewUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

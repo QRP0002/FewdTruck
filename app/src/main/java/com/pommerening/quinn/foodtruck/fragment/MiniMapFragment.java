@@ -28,11 +28,11 @@ public class MiniMapFragment extends SupportMapFragment{
     private SupportMapFragment fragment;
     private GoogleMap map;
     private static View view;
-    private static final int REQUEST_CODE = 200;
     private static final String TAG_LATITUDE = "latitude";
     private static final String TAG_LONGITUDE = "longitude";
     GPSLocation gps;
     private static boolean toggle = false;
+    private static final int REQUEST_CODE = 200;
 
     public MiniMapFragment() {
         super();
@@ -43,31 +43,11 @@ public class MiniMapFragment extends SupportMapFragment{
         return fragment;
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        gps = GPSLocation.locationSingleton(getActivity());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ActivityCompat.checkSelfPermission(getActivity(),
-                    Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission(getActivity(),
-                            Manifest.permission.ACCESS_COARSE_LOCATION)
-                            != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(getActivity(), new String[]{
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE);
-                return;
-            }
-        } else {
-            gps.changeSettings();
-        }
-        getInitialLocation();
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        gps = GPSLocation.locationSingleton(getActivity());
     }
 
     @Override
@@ -79,12 +59,14 @@ public class MiniMapFragment extends SupportMapFragment{
         if(fragment != null && fragment instanceof OnMapReadyListener) {
             ((OnMapReadyListener) fragment).onMapReady();
         }
+        getInitialLocation();
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
         if(toggle && LocationData.getDistance() != 0) {
             map.clear();
             getInitialLocation();
@@ -94,23 +76,14 @@ public class MiniMapFragment extends SupportMapFragment{
     @Override
     public void onPause() {
         super.onPause();
-        gps.stopGPS();
+        if(gps != null) {
+            gps.stopGPS();
+        }
         toggle = true;
     }
 
     public interface OnMapReadyListener{
         void onMapReady();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                           int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CODE:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
-        }
     }
 
     private void searchResult() {
@@ -151,9 +124,13 @@ public class MiniMapFragment extends SupportMapFragment{
         }
     }
 
-    private void getInitialLocation() {
+    public void getInitialLocation() {
+        if(gps == null) {
+            Log.d("GPS IS NULL", "FIX");
+        }
         if(gps.canGetLocation()) {
             map = getMap();
+            map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
             LatLng test = new LatLng(gps.getLatitude(), gps.getLongitude());
             map.addMarker(new MarkerOptions().position(test).title("You"));
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(test, 15));
