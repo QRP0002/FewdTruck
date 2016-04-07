@@ -6,16 +6,20 @@
 
     <LinearLayout
         android:id="@+id/top_layover"
-        android:layout_width="fill_parent"
-        android:paddingTop="40dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:orientation="horizontal" >
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorAccent"
+            android:paddingTop="50dp"
+            android:gravity="center"
+            android:text="@string/emp_order_header"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
     </LinearLayout>
 
     <ListView

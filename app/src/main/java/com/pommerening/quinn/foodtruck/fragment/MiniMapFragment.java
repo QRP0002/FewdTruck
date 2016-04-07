@@ -17,6 +17,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.pommerening.quinn.foodtruck.R;
 import com.pommerening.quinn.foodtruck.pojo.GPSLocation;
 import com.pommerening.quinn.foodtruck.pojo.HaversineFormula;
 import com.pommerening.quinn.foodtruck.pojo.LocationData;
@@ -107,13 +108,19 @@ public class MiniMapFragment extends SupportMapFragment{
 
             if(searchDistance == 0.0) {
                 LatLng test = new LatLng(latitude, longitude);
-                map.addMarker(new MarkerOptions().position(test).title(truckName));
+                map.addMarker(new MarkerOptions()
+                        .position(test)
+                        .title(truckName)
+                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_map_truck)));
             } else {
                 double result = HaversineFormula.distFrom(gps.getLatitude(), gps.getLongitude(),
                         latitude, longitude);
                 if(result <= searchDistance) {
                     LatLng test = new LatLng(latitude, longitude);
-                    map.addMarker(new MarkerOptions().position(test).title(truckName));
+                    map.addMarker(new MarkerOptions()
+                            .position(test)
+                            .title(truckName)
+                            .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_map_truck)));
                     nameData.add(truckName);
                 }
             }
@@ -135,9 +142,7 @@ public class MiniMapFragment extends SupportMapFragment{
             map.addMarker(new MarkerOptions()
                     .position(test)
                     .title("You")
-                    .icon(BitmapDescriptorFactory.defaultMarker(
-                            BitmapDescriptorFactory.HUE_BLUE
-                    )));
+                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_person)));
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(test, 15));
             map.animateCamera(CameraUpdateFactory.zoomTo(12), 2000, null);
             searchResult();

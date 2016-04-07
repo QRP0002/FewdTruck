@@ -107,16 +107,8 @@ public class EmployeeOrderFragment extends ListFragment {
                 }
             });
 
-            final View view1 = convertView.findViewById(R.id.order_top);
-            final View view2 = convertView.findViewById(R.id.order_bottom);
-            Button cooked = (Button) convertView.findViewById(R.id.orders_cooked_button);
-            cooked.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    view1.setBackgroundColor(Color.YELLOW);
-                    view2.setBackgroundColor(Color.YELLOW);
-                }
-            });
+
+
 
             return convertView;
         }

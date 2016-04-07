@@ -1,15 +1,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="wrap_content"
+    android:background="@drawable/dialog_shape"
     android:layout_height="wrap_content">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:text="@string/register_dialog_info_header"
+        android:textSize="20sp"
+        android:textColor="@color/textColorPrimary"
+        android:text="@string/add_dialog_prod_info"
         android:gravity="center"/>
 
+    <View
+        android:layout_width="200dp"
+        android:layout_height="10dp"/>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/add_inv_name_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,6 +29,12 @@
         android:hint="@string/add_dialog_prod_name_hint"
         android:singleLine="true"
         android:id="@+id/add_dialog_prod_name"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/add_inv_price_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <EditText
         android:layout_width="match_parent"
@@ -28,6 +45,11 @@
         android:singleLine="true"
         android:hint="@string/add_dialog_prod_price_hint"
         android:id="@+id/add_dialog_prod_price"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <View
+        android:layout_width="200dp"
+        android:layout_height="15dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,12 +60,20 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:background="@drawable/button_shape"
             android:text="@string/add_dialog_add_button"
             android:id="@+id/add_dialog_add_button"/>
+
+        <View
+            android:layout_width="8dp"
+            android:layout_height="1dp"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:background="@drawable/button_shape"
             android:text="@string/add_dialog_cancel_button"
             android:id="@+id/add_dialog_cancel_button"/>
 

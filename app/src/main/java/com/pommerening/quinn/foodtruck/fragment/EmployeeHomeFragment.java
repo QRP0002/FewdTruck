@@ -13,6 +13,8 @@ import com.pommerening.quinn.foodtruck.pojo.EmployeePagerAdapter;
 
 public class EmployeeHomeFragment extends Fragment {
     private String mUsername;
+    private int[] tabIcons = {R.mipmap.ic_kitchen, R.mipmap.ic_settings,
+            R.mipmap.ic_world, R.mipmap.ic_menu};
 
     public static EmployeeHomeFragment newInstance(String username) {
         EmployeeHomeFragment f = new EmployeeHomeFragment();
@@ -34,11 +36,12 @@ public class EmployeeHomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_employee_home, container, false);
 
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.emp_tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("Inventory"));
-        tabLayout.addTab(tabLayout.newTab().setText("Order"));
-        tabLayout.addTab(tabLayout.newTab().setText("Settings"));
-        tabLayout.addTab(tabLayout.newTab().setText("Map"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.addTab(tabLayout.newTab().setIcon(tabIcons[3]));
+        tabLayout.addTab(tabLayout.newTab().setIcon(tabIcons[0]));
+        tabLayout.addTab(tabLayout.newTab().setIcon(tabIcons[1]));
+        tabLayout.addTab(tabLayout.newTab().setIcon(tabIcons[2]));
+
 
         final ViewPager viewPager = (ViewPager) view.findViewById(R.id.emp_pager);
         final EmployeePagerAdapter epa = new EmployeePagerAdapter(getFragmentManager(),
