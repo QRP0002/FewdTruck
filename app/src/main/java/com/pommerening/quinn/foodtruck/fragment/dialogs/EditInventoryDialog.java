@@ -2,8 +2,10 @@ package com.pommerening.quinn.foodtruck.fragment.dialogs;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,6 +46,8 @@ public class EditInventoryDialog extends DialogFragment {
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
 
+    private TextInputLayout nameLayout, priceLayout;
+
 
     public static EditInventoryDialog newInstance(String productName,
                                                   String productPrice, String productID ) {
@@ -67,6 +71,8 @@ public class EditInventoryDialog extends DialogFragment {
         mDialog.setCanceledOnTouchOutside(false);
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         mDialog.setContentView(R.layout.fragment_forgot_id_dialog);
+        mDialog.getWindow()
+                .setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         return mDialog;
     }
 
@@ -74,10 +80,13 @@ public class EditInventoryDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit_inventory_dialog, container, false);
-        ((TextView) view.findViewById(R.id.edit_inv_name_et)).setText(mProductName);
-        ((TextView) view.findViewById(R.id.edit_inv_price_et)).setText(mProductPrice);
         mProductNameEditText = (EditText) view.findViewById(R.id.edit_inv_name_et);
         mProductPiceEditText = (EditText) view.findViewById(R.id.edit_inv_price_et);
+
+        priceLayout = (TextInputLayout) view.findViewById(R.id.edit_inv_price_layout);
+        priceLayout.setHint("$ " + mProductPrice);
+        nameLayout = (TextInputLayout) view.findViewById(R.id.edit_inv_name_layout);
+        nameLayout.setHint(mProductName);
 
 
         mCancelButton = (Button) view.findViewById(R.id.edit_inv_cancel_button);

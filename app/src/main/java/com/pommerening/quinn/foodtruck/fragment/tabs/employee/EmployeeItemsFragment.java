@@ -3,11 +3,13 @@ package com.pommerening.quinn.foodtruck.fragment.tabs.employee;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.SyncStateContract;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -47,7 +49,7 @@ public class EmployeeItemsFragment extends Fragment implements RefreshScreenInte
     private static final String TAG_POSTS = "posts";
     private static final String TAG_PRODID = "prodid";
     private ListView lv;
-    private Button mAddButton;
+    private FloatingActionButton mAddButton;
 
     private JSONArray mInventory = null;
     private ArrayList<HashMap<String, String>> mInventoryList;
@@ -72,7 +74,7 @@ public class EmployeeItemsFragment extends Fragment implements RefreshScreenInte
         View view = inflater.inflate(R.layout.fragment_employee_items, container, false);
         lv = (ListView) view.findViewById(R.id.emp_list_view);
 
-        mAddButton = (Button) view.findViewById(R.id.emp_inv_add_button);
+        mAddButton = (FloatingActionButton) view.findViewById(R.id.emp_inv_add_button);
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

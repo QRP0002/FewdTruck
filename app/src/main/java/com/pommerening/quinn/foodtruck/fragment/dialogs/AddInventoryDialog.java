@@ -2,8 +2,10 @@ package com.pommerening.quinn.foodtruck.fragment.dialogs;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,6 +42,7 @@ public class AddInventoryDialog extends DialogFragment {
     private ProgressDialog pDialog;
     private RefreshScreenInterface callback;
     private boolean itemAddedTracker = false;
+    private TextInputLayout addNameLayout, addPriceLayout;
 
     public static AddInventoryDialog newInstance(String username) {
         AddInventoryDialog f = new AddInventoryDialog();
@@ -55,6 +58,8 @@ public class AddInventoryDialog extends DialogFragment {
         callback = (RefreshScreenInterface) getTargetFragment();
         mDialog = new Dialog(getActivity());
         mDialog.setCanceledOnTouchOutside(false);
+        mDialog.getWindow()
+                .setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         mDialog.setContentView(R.layout.fragment_forgot_id_dialog);
         return mDialog;
@@ -68,6 +73,9 @@ public class AddInventoryDialog extends DialogFragment {
 
         mProdNameEditText = (EditText) view.findViewById(R.id.add_dialog_prod_name);
         mProdPriceEditText = (EditText) view.findViewById(R.id.add_dialog_prod_price);
+
+        addNameLayout = (TextInputLayout) view.findViewById(R.id.add_inv_name_layout);
+        addPriceLayout = (TextInputLayout) view.findViewById(R.id.add_inv_price_layout);
 
         mAddButton= (Button) view.findViewById(R.id.add_dialog_add_button);
         mAddButton.setOnClickListener(new View.OnClickListener() {

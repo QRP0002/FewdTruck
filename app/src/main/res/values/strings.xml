@@ -47,20 +47,23 @@
 
 
     <!--Employee Inventory Fragment -->
-    <string name="emp_load_inv_str">Inventory</string>
+    <string name="emp_load_inv_str">Menu</string>
     <string name="emp_inv_add_button">Add Item</string>
 
     <!--Add Inventory Dialog -->
     <string name="add_dialog_add_button">Add Item</string>
     <string name="add_dialog_cancel_button">Cancel</string>
+    <string name="add_dialog_prod_info">Product Information:</string>
     <string name="add_dialog_prod_name_hint">Product Name</string>
     <string name="add_dialog_prod_price_hint">Product Price</string>
 
     <!-- Edit Inventory Dialog -->
-    <string name="edit_inv_edit_button">Save Edit</string>
+    <string name="edit_inv_edit_button">Save</string>
     <string name="edit_inv_cancel_button">Cancel</string>
-    <string name="edit_inv_delete_button">Remove Item</string>
-
+    <string name="edit_inv_delete_button">Remove</string>
+    <string name="edit_inv_header">Edit Item:</string>
+    <string name="edit_inv_hint1"> </string>
+    <string name="edit_inv_hint2"> </string>
     <!-- Employee Settings -->
     <string name="emp_set_edit_title">Update your Information</string>
     <string name="emp_set_name_tv">Name:</string>
@@ -92,5 +95,6 @@
     <!-- Employee Orders-->
     <string name="orders_cooked_button">Cooked</string>
     <string name="orderes_remove_button">Remove</string>
+    <string name="emp_order_header">Orders:</string>
 
 </resources>
