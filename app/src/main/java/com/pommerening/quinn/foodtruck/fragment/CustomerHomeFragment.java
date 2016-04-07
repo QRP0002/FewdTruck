@@ -19,7 +19,8 @@ public class CustomerHomeFragment extends Fragment implements MiniMapFragment.On
     private String mDistance;
     private SupportMapFragment mMapFragment;
     private GoogleMap mMap;
-
+    private int[] tabIcons = {R.mipmap.ic_shopping_cart, R.mipmap.ic_settings,
+            R.mipmap.ic_favorite, R.mipmap.ic_world, R.mipmap.ic_menu};
     public static CustomerHomeFragment newInstance(String username, String distance) {
         CustomerHomeFragment f = new CustomerHomeFragment();
         Bundle args = new Bundle();
@@ -36,17 +37,18 @@ public class CustomerHomeFragment extends Fragment implements MiniMapFragment.On
         mDistance = getArguments().getString("distance");
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_customer_home, container, false);
 
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("Map"));
-        tabLayout.addTab(tabLayout.newTab().setText("Menu"));
-        tabLayout.addTab(tabLayout.newTab().setText("Fav"));
-        tabLayout.addTab(tabLayout.newTab().setText("Set"));
-        tabLayout.addTab(tabLayout.newTab().setText("Cart"));
+        tabLayout.addTab(tabLayout.newTab().setIcon(tabIcons[3]));
+        tabLayout.addTab(tabLayout.newTab().setIcon(tabIcons[4]));
+        tabLayout.addTab(tabLayout.newTab().setIcon(tabIcons[2]));
+        tabLayout.addTab(tabLayout.newTab().setIcon(tabIcons[1]));
+        tabLayout.addTab(tabLayout.newTab().setIcon(tabIcons[0]));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) view.findViewById(R.id.pager);
