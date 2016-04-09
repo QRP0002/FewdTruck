@@ -2,6 +2,7 @@ package com.pommerening.quinn.foodtruck.fragment.tabs.employee;
 
 import android.app.ProgressDialog;
 import android.graphics.Color;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,7 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -95,7 +98,8 @@ public class EmployeeOrderFragment extends ListFragment {
             TextView truckName = (TextView) convertView.findViewById(R.id.order_date);
             truckName.setText(entry.get(TAG_DATE));
 
-            Button removeButton = (Button) convertView.findViewById(R.id.orders_remove_button);
+            ImageButton removeButton = (ImageButton) convertView
+                    .findViewById(R.id.orders_remove_button);
             removeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -107,9 +111,8 @@ public class EmployeeOrderFragment extends ListFragment {
                 }
             });
 
-
-
-
+            Switch doneButton = (Switch) convertView
+                    .findViewById(R.id.orders_cooked_button);
             return convertView;
         }
     }
