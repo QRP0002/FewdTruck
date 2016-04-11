@@ -26,7 +26,6 @@
         android:id="@+id/emp_list_view"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/bottom_layover"
         android:layout_below="@+id/top_layover"
         android:background="#fff"
         android:divider="@android:color/transparent"

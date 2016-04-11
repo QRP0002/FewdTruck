@@ -1,6 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="wrap_content"
+    android:background="@drawable/dialog_shape"
     android:layout_height="wrap_content">
 
     <RelativeLayout
@@ -12,8 +13,21 @@
         android:paddingLeft="@dimen/activity_horizontal_margin">
 
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textColorPrimary"
+            android:id="@+id/fav_header"
+            android:paddingBottom="15dp"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:text="@string/favorites_header"
+            android:gravity="center"/>
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/fav_header"
+            android:textColor="@color/colorAccent"
             android:id="@+id/edit_fav_truck_name"
             android:layout_alignParentRight="true"
             android:textSize="16sp" />
@@ -21,6 +35,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/fav_header"
+            android:textColor="@color/colorAccent"
             android:layout_alignParentLeft="true"
             android:id="@+id/edit_fav_prod_name"
             android:textSize="16sp"/>
@@ -28,6 +44,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
             android:id="@+id/edit_fav_prod_price"
             android:layout_marginTop="15dp"
             android:textSize="16sp"
@@ -44,17 +61,32 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:background="@drawable/button_shape"
             android:text="@string/favorites_cancel_button"
             android:id="@+id/edit_fav_cancel_button"/>
+
+        <View
+            android:layout_width="8dp"
+            android:layout_height="1dp"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:background="@drawable/button_shape"
             android:text="@string/edit_fav_remove_str"
             android:id="@+id/edit_fav_remove_button"/>
+
+        <View
+            android:layout_width="8dp"
+            android:layout_height="1dp"/>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:background="@drawable/button_shape"
             android:text="@string/favorites_order_button"
             android:id="@+id/edit_fav_order_button"/>
 

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CartFragment extends ListFragment {
+
     private String mUsername;
     private ArrayList<HashMap<String, String>> mOrderList;
     private static final String TAG_PRODUCTID = "_ProductID";
@@ -151,7 +153,8 @@ public class CartFragment extends ListFragment {
 
             truckName.setText(entry.get(TAG_TRUCKNAME));
 
-            Button removeButton = (Button) convertView.findViewById(R.id.cart_remove_button);
+            ImageButton removeButton = (ImageButton) convertView
+                    .findViewById(R.id.cart_remove_button);
             removeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

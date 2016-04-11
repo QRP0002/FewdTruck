@@ -2,6 +2,7 @@ package com.pommerening.quinn.foodtruck.fragment.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -81,6 +82,8 @@ public class AddFavoriteDialog extends DialogFragment {
         }
         mDialog = new Dialog(getActivity());
         mDialog.setCanceledOnTouchOutside(false);
+        mDialog.getWindow()
+                .setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         mDialog.setContentView(R.layout.fragment_add_favorite_dialog);
         return mDialog;

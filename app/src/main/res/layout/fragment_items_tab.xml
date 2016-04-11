@@ -5,8 +5,8 @@
     android:background="#fff" >
 
     <LinearLayout
-        android:id="@+id/cust_top_layover"
-        android:layout_width="fill_parent"
+        android:id="@+id/top_layover_one"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
@@ -14,8 +14,9 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_height="match_parent"
+            android:background="@color/colorAccent"
+            android:paddingTop="2dp"
             android:gravity="center"
             android:text="@string/emp_load_inv_str"
             android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -25,35 +26,9 @@
         android:id="@+id/cust_list_view"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/bottom_layover"
-        android:layout_below="@+id/top_layover"
         android:background="#fff"
         android:divider="@android:color/transparent"
-        android:scrollbars="none" />
-
-    <LinearLayout
-        android:id="@+id/cust_bottom_layover"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:orientation="horizontal"
-        android:weightSum="2" >
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical" >
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical" >
-
-        </LinearLayout>
-    </LinearLayout>
+        android:scrollbars="none"
+        android:layout_below="@+id/top_layover_one" />
 
 </RelativeLayout>
