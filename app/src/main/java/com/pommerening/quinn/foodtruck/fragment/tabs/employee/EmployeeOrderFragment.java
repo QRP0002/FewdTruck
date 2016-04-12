@@ -47,6 +47,7 @@ public class EmployeeOrderFragment extends ListFragment {
     private static final String TAG_POSTS = "posts";
     private static final String TAG_DATE = "order_date";
     private static final String TAG_ORDERID = "order_id";
+    private boolean isViewShownOrder = false;
 
     public static Adapter adapter;
     public static ListView listView;
@@ -66,6 +67,11 @@ public class EmployeeOrderFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUsername = getArguments().getString("username");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         new LoadOrders().execute(mUsername);
     }
 

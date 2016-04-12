@@ -25,6 +25,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,8 +83,11 @@ public class AddInventoryDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 if (v.getId() == R.id.add_dialog_add_button) {
+                    DecimalFormat df = new DecimalFormat("##0.00");
                     final String productName = mProdNameEditText.getText().toString();
-                    final String productPrice = mProdPriceEditText.getText().toString();
+                    double priceTemp = Double.parseDouble(mProdPriceEditText.getText().toString());
+
+                    final String productPrice = df.format(priceTemp);
                     new AddInventory().execute(mUsername, productName, productPrice);
                     itemAddedTracker = true;
                 }

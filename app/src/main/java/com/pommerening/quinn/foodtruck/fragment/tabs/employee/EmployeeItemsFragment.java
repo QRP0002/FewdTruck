@@ -23,6 +23,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.pommerening.quinn.foodtruck.R;
+import com.pommerening.quinn.foodtruck.activity.LoginActivity;
 import com.pommerening.quinn.foodtruck.fragment.dialogs.AddInventoryDialog;
 import com.pommerening.quinn.foodtruck.fragment.dialogs.EditInventoryDialog;
 import com.pommerening.quinn.foodtruck.pojo.JSONParser;
@@ -50,6 +51,7 @@ public class EmployeeItemsFragment extends Fragment implements RefreshScreenInte
     private static final String TAG_PRODID = "prodid";
     private ListView lv;
     private FloatingActionButton mAddButton;
+    private ListAdapter adapter;
 
     private JSONArray mInventory = null;
     private ArrayList<HashMap<String, String>> mInventoryList;
@@ -89,13 +91,11 @@ public class EmployeeItemsFragment extends Fragment implements RefreshScreenInte
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("OnReumse: ", "OnResume was called");
-        new LoadInformation().execute(mUsername);
+        refreshScreen();
     }
 
     @Override
     public void refreshScreen() {
-        Log.d("Hope:", "JobScreen Refreshed");
         new LoadInformation().execute(mUsername);
     }
 
@@ -168,7 +168,7 @@ public class EmployeeItemsFragment extends Fragment implements RefreshScreenInte
     }
 
     public void setData(ListView lv) {
-        final ListAdapter adapter = new SimpleAdapter(getActivity(), mInventoryList,
+        adapter = new SimpleAdapter(getActivity(), mInventoryList,
                 R.layout.grid_list, new String[] {TAG_PRODNAME, TAG_PRODPRICE},
                 new int[] {R.id.item1, R.id.item2});
 
