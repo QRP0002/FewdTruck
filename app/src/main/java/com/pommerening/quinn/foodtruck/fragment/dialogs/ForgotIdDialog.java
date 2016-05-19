@@ -145,7 +145,7 @@ public class ForgotIdDialog extends DialogFragment {
         }
 
         public void sendInformation(String email) {
-            Mail m = new Mail("fewdtruck@gmail.com", "Onewiththetruck123");
+            Mail m = new Mail("placeholderemail", "placeholderpassword");
             String[] toArray = new String[1];
 
             toArray[0] = email;
