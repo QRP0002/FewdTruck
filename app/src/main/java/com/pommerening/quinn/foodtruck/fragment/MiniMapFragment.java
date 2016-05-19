@@ -35,6 +35,7 @@ public class MiniMapFragment extends SupportMapFragment{
     GPSLocation gps;
     private static boolean toggle = false;
     private static final int REQUEST_CODE = 200;
+    private ArrayList<HashMap<String, String>> temp;
 
     public MiniMapFragment() {
         super();
@@ -79,6 +80,7 @@ public class MiniMapFragment extends SupportMapFragment{
     public void onPause() {
         super.onPause();
         gps.stopGPS();
+        Log.d("Map", "onPause");
         toggle = true;
     }
 
@@ -94,7 +96,9 @@ public class MiniMapFragment extends SupportMapFragment{
         ArrayList<String> nameData = new ArrayList<>();
 
         ArrayList<HashMap<String, String>> values = LocationData.getLocationData();
+        if (values == null) {
 
+        }
         for (HashMap<String, String> hashMap : values) {
             for (Map.Entry<String, String> entry : hashMap.entrySet()) {
                 if(entry.getKey().equals(TAG_LATITUDE)) {

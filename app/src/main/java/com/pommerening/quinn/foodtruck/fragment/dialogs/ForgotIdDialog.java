@@ -2,8 +2,11 @@ package com.pommerening.quinn.foodtruck.fragment.dialogs;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,12 +45,14 @@ public class ForgotIdDialog extends DialogFragment {
     private static final String TAG_MESSAGE = "message";
     private static final String TAG_USERNAME = "username";
     private static final String TAG_PASSWORD = "password";
+    private TextInputLayout inputLayoutEmail;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         mDialog = new Dialog(getActivity());
         mDialog.setCanceledOnTouchOutside(false);
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mDialog.setContentView(R.layout.fragment_forgot_id_dialog);
         return mDialog;
     }
@@ -59,6 +64,7 @@ public class ForgotIdDialog extends DialogFragment {
         final View view = inflater.inflate(R.layout.fragment_forgot_id_dialog, container, false);
 
         mHeader= (TextView) view.findViewById(R.id.forgot_id_header);
+        inputLayoutEmail = (TextInputLayout) view.findViewById(R.id.input_layout_email);
         mCancelButton = (Button) view.findViewById(R.id.forgot_id_cancel_button);
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +93,8 @@ public class ForgotIdDialog extends DialogFragment {
         protected void onPreExecute() {
             super.onPreExecute();
             pDialog = new ProgressDialog(getActivity());
-            pDialog.setMessage("Retrieving Information...");
+            pDialog.getWindow()
+                    .setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -138,7 +145,7 @@ public class ForgotIdDialog extends DialogFragment {
         }
 
         public void sendInformation(String email) {
-            Mail m = new Mail("username", "password");
+            Mail m = new Mail("fewdtruck@gmail.com", "Onewiththetruck123");
             String[] toArray = new String[1];
 
             toArray[0] = email;

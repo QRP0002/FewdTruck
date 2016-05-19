@@ -81,16 +81,19 @@
 
     <!-- Customer Favorites-->
     <string name="favorites_cancel_button">Cancel</string>
-    <string name="favorites_order_button">Order Item</string>
+    <string name="favorites_order_button">Order</string>
+    <string name="favorites_header">Menu Details</string>
     <string name="favorites_add_button">Favorite</string>
 
     <!-- Edit Favorites Dialog -->
     <string name="edit_fav_remove_str">Remove</string>
+    <string name="edit_header">Favorites</string>
 
     <!-- Cart Fragment -->
     <string name="cart_remove_button">Remove Item</string>
     <string name="cart_order_button">Place Order</string>
     <string name="cart_empty_toast">Cart is empty</string>
+    <string name="cart_header">Order Cart</string>
 
     <!-- Employee Orders-->
     <string name="orders_cooked_button">Cooked</string>

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
     android:orientation="vertical">
 
     <ScrollView
@@ -19,6 +20,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/textColorPrimary"
                 android:id="@+id/settings_edit_title"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
@@ -36,6 +38,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
                 android:id="@+id/setting_name_tv"
                 android:text="@string/setting_name_tv_header"
                 android:layout_marginTop="15dp"
@@ -48,7 +51,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/settings_name_et"
                 android:singleLine="true"
-                android:hint="@string/settings_name_et"
                 android:textAlignment="center"
                 android:ems="7"
                 android:layout_alignParentRight="true"
@@ -57,6 +59,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
                 android:id="@+id/setting_password_tv"
                 android:text="@string/settings_password_tv"
                 android:layout_marginTop="15dp"
@@ -69,7 +72,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/settings_password_et"
                 android:inputType="textPassword"
-                android:hint="@string/settings_password_et"
                 android:textAlignment="center"
                 android:singleLine="true"
                 android:ems="7"
@@ -79,6 +81,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
                 android:id="@+id/setting_confirm_tv"
                 android:text="@string/settings_confirm_tv"
                 android:layout_marginTop="15dp"
@@ -93,7 +96,6 @@
                 android:inputType="textPassword"
                 android:textAlignment="center"
                 android:singleLine="true"
-                android:hint="@string/settings_password_et"
                 android:ems="7"
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/setting_password_tv"/>
@@ -101,6 +103,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
                 android:id="@+id/setting_email_tv"
                 android:text="@string/settings_email_tv"
                 android:layout_marginTop="15dp"
@@ -114,7 +117,6 @@
                 android:id="@+id/settings_email_et"
                 android:inputType="textEmailAddress"
                 android:textAlignment="center"
-                android:hint="@string/settings_email_et"
                 android:singleLine="true"
                 android:ems="7"
                 android:layout_alignParentRight="true"
@@ -123,6 +125,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
                 android:id="@+id/setting_preference_tv"
                 android:text="@string/settings_preference_tv"
                 android:layout_marginTop="15dp"
@@ -145,8 +148,10 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/button_shape"
                 android:id="@+id/settings_save_button"
-                android:layout_marginTop="30dp"
+                android:textColor="@color/colorAccent"
+                android:layout_marginTop="50dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentRight="true"
                 android:text="@string/settings_save_button"
